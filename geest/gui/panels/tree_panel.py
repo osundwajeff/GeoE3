@@ -1184,14 +1184,14 @@ class TreePanel(QWidget):
         )
         add_to_map(
             item,
-            key="opportunities_by_geoe3_score_subnational_aggregation",
-            layer_name="GeoE3 Score by Opportunities Aggregate",
+            key="geoe3_score_ghsl_masked_subnational_aggregation",
+            layer_name="GeoE3 Score GHSL Masked Aggregate",
             group="GeoE3",
         )
         add_to_map(
             item,
-            key="opportunities_by_geoe3_score_by_population_subnational_aggregation",
-            layer_name="GeoE3 Score by Population by Opportunities Aggregate",
+            key="geoe3_score_by_population_ghsl_masked_subnational_aggregation",
+            layer_name="GeoE3 Score by Population GHSL Masked Aggregate",
             group="GeoE3",
         )
 

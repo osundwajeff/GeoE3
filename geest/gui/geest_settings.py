@@ -116,6 +116,10 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
         filter_study_areas_by_ghsl = bool(setting(key="filter_study_areas_by_ghsl", default=True))
         self.filter_study_areas_by_ghsl.setChecked(filter_study_areas_by_ghsl)
 
+        # NTL Binary Threshold setting
+        ntl_binary_threshold = int(setting(key="ntl_binary_threshold_percent", default=80))
+        self.ntl_binary_threshold.setValue(ntl_binary_threshold)
+
     def apply(self):
         """Process the animation sequence.
 
@@ -148,6 +152,7 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
         set_setting(key="ookla_use_local_cache", value=self.ookla_use_local_cache.isChecked())
         set_setting(key="ookla_local_cache_dir", value=self.ookla_cache_dir.text())
         set_setting(key="filter_study_areas_by_ghsl", value=self.filter_study_areas_by_ghsl.isChecked())
+        set_setting(key="ntl_binary_threshold_percent", value=self.ntl_binary_threshold.value())
 
     def _select_ookla_cache_dir(self):
         """Select local cache directory for Ookla parquet files."""

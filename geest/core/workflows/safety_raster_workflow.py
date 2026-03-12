@@ -20,7 +20,8 @@ from qgis.core import (
 )
 
 from geest.core import JsonTreeItem
-from geest.core.jenks import jenks_natural_breaks
+from geest.core.jenks import calculate_goodness_of_variance_fit, jenks_natural_breaks
+from geest.core.settings import setting
 from geest.utilities import log_message
 
 from .workflow_base import WorkflowBase
@@ -226,21 +227,36 @@ class SafetyRasterWorkflow(WorkflowBase):
             log_message("No valid data in the raster", tag="Geest", level=1)
             return None, None, None, None
 
+    def _build_binary_table(self, max_val: float) -> list:
+        """
+        Build binary classification table: no light vs light present.
+
+        Uses fixed threshold of 0.001 (VIIRS noise floor) to avoid
+        false positives from sensor noise.
+
+        Args:
+            max_val: Maximum value in the raster data
+
+        Returns:
+            Reclassification table as list of strings
+            Format: [min1, max1, class1, min2, max2, class2]
+        """
+        threshold = 0.001
+        reclass_table = ["0.0", str(threshold), "0", str(threshold), str(max_val), "5"]
+        return list(map(str, reclass_table))
+
     def _build_reclassification_table(self, max_val: float, median: float, valid_data: np.ndarray) -> list:
         """
-        Build a reclassification table using Jenks Natural Breaks algorithm.
+        Build reclassification table with automatic method selection.
 
-        The table maps nighttime lights intensity values to 6 safety classes:
-        - 0: No Access (very dark)
-        - 1: Very Low
-        - 2: Low
-        - 3: Moderate
-        - 4: High
-        - 5: Very High (well-lit)
+        Automatically chooses between Binary and Jenks Natural Breaks
+        classification based on data distribution:
+        - Binary: If > ntl_binary_threshold_percent zeros OR GVF < 0.3
+        - Jenks: Otherwise
 
-        Uses Jenks Natural Breaks for optimal data-driven classification.
-        If Jenks cannot compute valid breaks (e.g., insufficient data variation),
-        the workflow will fail with a descriptive error message.
+        The table maps nighttime lights intensity values to safety classes:
+        - Binary: 2 classes (0=No Access, 5=Light Present)
+        - Jenks: 6 classes (0=No Access to 5=Very High)
 
         Args:
             max_val: Maximum value in the raster
@@ -253,16 +269,41 @@ class SafetyRasterWorkflow(WorkflowBase):
 
         Raises:
             ValueError: If Jenks Natural Breaks cannot compute valid classification breaks
-
-        Example:
-            >>> table = [0.0, 0.5, 0, 0.5, 1.2, 1, 1.2, 2.5, 2, ...]
-            >>> # Means: [0.0-0.5] -> class 0, [0.5-1.2] -> class 1, etc.
         """
-        n_classes = 6  # Fixed: 0=No Access, 1-5=Safety levels
+        # Read threshold from settings (default 80%)
+        threshold_percent = int(setting(key="ntl_binary_threshold_percent", default=80))
+
+        # Calculate metrics for auto-detection
+        zero_threshold = 0.001
+        non_zero_data = valid_data[valid_data > zero_threshold]
+
+        if len(non_zero_data) == 0:
+            zero_percentage = 100.0
+            gvf = 0.0
+        else:
+            zero_percentage = (len(valid_data) - len(non_zero_data)) / len(valid_data) * 100
+            breaks = jenks_natural_breaks(valid_data, n_classes=6)
+            gvf = calculate_goodness_of_variance_fit(valid_data, breaks)
+
+        # Auto-decide: Binary or Jenks?
+        use_binary = (zero_percentage > threshold_percent) or (gvf < 0.3)
+
+        if use_binary:
+            log_message(
+                f"🎯 Auto-selected Binary classification "
+                f"(zeros={zero_percentage:.1f}%, threshold={threshold_percent}%, GVF={gvf:.3f})",
+                tag="Geest",
+                level=0,
+            )
+            return self._build_binary_table(max_val)
+
+        # Continue with Jenks Natural Breaks
+        n_classes = 6
 
         log_message(
             f"📊 Computing Jenks Natural Breaks classification (max={max_val:.6f}, "
-            f"median={median:.6f}, n={len(valid_data)})",
+            f"median={median:.6f}, n={len(valid_data)}, zeros={zero_percentage:.1f}%, "
+            f"threshold={threshold_percent}%, GVF={gvf:.3f})",
             tag="Geest",
             level=0,
         )
@@ -288,11 +329,6 @@ class SafetyRasterWorkflow(WorkflowBase):
 
             # Convert all values to strings for QGIS processing
             reclass_table = list(map(str, reclass_table))
-
-            # Calculate GVF for quality assessment
-            from geest.core.jenks import calculate_goodness_of_variance_fit
-
-            gvf = calculate_goodness_of_variance_fit(valid_data, breaks)
 
             log_message(
                 f"✅ Jenks Natural Breaks computed:\n"

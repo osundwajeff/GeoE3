@@ -188,7 +188,7 @@ class TreePanel(QWidget):
         # Create a CustomTreeView widget to handle editing and reverts
         self.treeView = JsonTreeView()
         self.treeView.setDragDropMode(QTreeView.InternalMove)
-        self.treeView.setDefaultDropAction(Qt.MoveAction)
+        self.treeView.setDefaultDropAction(Qt.DropAction.MoveAction)
 
         # Create a model for the QTreeView using custom JsonTreeModel
         self.model = JsonTreeModel(self.json_data)
@@ -210,7 +210,7 @@ class TreePanel(QWidget):
         self.treeView.header().hideSection(2)
 
         # Enable custom context menu
-        self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.treeView.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.open_context_menu)
 
         # Expand the whole tree by default
@@ -284,7 +284,7 @@ class TreePanel(QWidget):
         self.overall_progress_bar.setRange(0, 100)
         self.overall_progress_bar.setValue(0)
         self.overall_progress_bar.setFormat("Overall Progress: %p%")
-        self.overall_progress_bar.setAlignment(Qt.AlignCenter)
+        self.overall_progress_bar.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.overall_progress_bar.setVisible(False)
         self.overall_progress_bar.setFixedHeight(20)
         self.overall_progress_bar.setFixedWidth(200)
@@ -293,7 +293,7 @@ class TreePanel(QWidget):
         self.workflow_progress_bar.setRange(0, 100)
         self.workflow_progress_bar.setValue(0)
         self.workflow_progress_bar.setFormat("Task Progress: %p%")
-        self.workflow_progress_bar.setAlignment(Qt.AlignCenter)
+        self.workflow_progress_bar.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.workflow_progress_bar.setVisible(False)
         self.workflow_progress_bar.setFixedHeight(20)
         self.workflow_progress_bar.setFixedWidth(200)
@@ -1299,7 +1299,7 @@ class TreePanel(QWidget):
         # Populate the table with the sorted data
         for row, (key, value) in enumerate(sorted_data.items()):
             key_item = QTableWidgetItem(key)
-            key_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            key_item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
             table.setItem(row, 0, key_item)
 
             if isinstance(value, dict):
@@ -1310,7 +1310,7 @@ class TreePanel(QWidget):
                 table.setRowHeight(row, nested_table.height() + 10)  # Add 10px padding
             else:
                 value_item = QTableWidgetItem(str(value))
-                value_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                value_item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
                 table.setItem(row, 1, value_item)
             # Check if this row contains "error_file"
             if key == "error_file" and isinstance(value, str):
@@ -1350,7 +1350,7 @@ class TreePanel(QWidget):
         layout.addLayout(button_layout)
 
         # Enable custom context menu for the table
-        table.setContextMenuPolicy(Qt.CustomContextMenu)
+        table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         table.customContextMenuRequested.connect(lambda pos: self.show_context_menu(table, pos))
         log_message("----------------------")
         log_message("Showing descendant Dimensions.")
@@ -1441,14 +1441,14 @@ class TreePanel(QWidget):
         for row, (key, value) in enumerate(nested_data.items()):
             key_item = QTableWidgetItem(str(key))  # Convert key to string
             value_item = QTableWidgetItem(str(value))  # Convert value to string
-            key_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            value_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            key_item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
+            value_item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
 
             nested_table.setItem(row, 0, key_item)
             nested_table.setItem(row, 1, value_item)
 
         nested_table.setFixedHeight(len(nested_data) * 25)  # Adjust height based on the number of rows
-        nested_table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        nested_table.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         nested_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         nested_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 

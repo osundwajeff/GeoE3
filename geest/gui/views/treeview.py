@@ -326,7 +326,7 @@ class JsonTreeModel(QAbstractItemModel):
 
         Args:
             index (QModelIndex): The index for which data is requested.
-            role (int): The role (e.g., Qt.DisplayRole, Qt.ForegroundRole, etc.).
+            role (int): The role (e.g., Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.ForegroundRole, etc.).
 
         Returns:
             QVariant: The data for the given index and role.
@@ -341,25 +341,25 @@ class JsonTreeModel(QAbstractItemModel):
             return None
 
         # Existing data handling code
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return item.data(index.column())
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             return item.data(index.column())
-        elif role == Qt.ForegroundRole:
+        elif role == Qt.ItemDataRole.ForegroundRole:
             # If item is disabled, show it greyed out
             if not item.is_enabled():
-                return QColor(Qt.gray)
+                return QColor(Qt.GlobalColor.gray)
             # Otherwise, use the item's font color for column 2
             elif index.column() == 2:
                 return item.font_color
-        elif role == Qt.DecorationRole and index.column() == 0:  # Icon for the name column
+        elif role == Qt.ItemDataRole.DecorationRole and index.column() == 0:  # Icon for the name column
             return item.getIcon()
-        elif role == Qt.DecorationRole and index.column() == 1:  # Icon for the status column
+        elif role == Qt.ItemDataRole.DecorationRole and index.column() == 1:  # Icon for the status column
             return item.getStatusIcon()
-        elif role == Qt.ToolTipRole and index.column() == 1:
+        elif role == Qt.ItemDataRole.ToolTipRole and index.column() == 1:
             return item.getStatus()
-        elif role == Qt.ToolTipRole and index.column() == 0:
+        elif role == Qt.ItemDataRole.ToolTipRole and index.column() == 0:
             # if the item role is "indicator" then use the
             # description from its parent for the tooltip
             # unless the indicator has an error in which case
@@ -379,24 +379,24 @@ class JsonTreeModel(QAbstractItemModel):
             # Force it to rich text so it doen't get cut off
             return f"<p>{item.getItemTooltip()}</p>"
 
-        elif role == Qt.FontRole:
+        elif role == Qt.ItemDataRole.FontRole:
             return item.getFont()
 
         return None
 
-    def setData(self, index, value, role=Qt.EditRole):
+    def setData(self, index, value, role=Qt.ItemDataRole.EditRole):
         """
         Sets the data for the specified index and role, handling value validation (e.g., ensuring weightings are numbers).
 
         Args:
             index (QModelIndex): The index of the item being edited.
             value (any): The new value to set.
-            role (int): The role in which the value is being set (usually Qt.EditRole).
+            role (int): The role in which the value is being set (usually Qt.ItemDataRole.EditRole).
 
         Returns:
             bool: True if the value was successfully set, False otherwise.
         """
-        if role == Qt.EditRole:
+        if role == Qt.ItemDataRole.EditRole:
             item = index.internalPointer()
             column = index.column()
 
@@ -426,18 +426,18 @@ class JsonTreeModel(QAbstractItemModel):
             Qt.ItemFlags: The flags that determine the properties of the item (editable, selectable, etc.).
         """
         if not index.isValid():
-            return Qt.NoItemFlags
+            return Qt.ItemFlag.NoItemFlags
 
         item = index.internalPointer()
 
         # If item is disabled, return flags without ItemIsEnabled
         if not item.is_enabled():
-            return Qt.NoItemFlags
+            return Qt.ItemFlag.NoItemFlags
 
         if index.column() == 0 or index.column() == 1:
-            return Qt.ItemIsEditable | Qt.ItemIsSelectable | Qt.ItemIsEnabled
+            return Qt.ItemFlag.ItemIsEditable | Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled
 
-        return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+        return Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled
 
     def to_json(self):
         """Convert the tree structure back into a JSON document.
@@ -530,7 +530,7 @@ class JsonTreeModel(QAbstractItemModel):
             factor_item.setData(2, "0.00")
         # Update the dimension's total weighting
         dimension_item.setData(2, "0.00")
-        self.update_font_color(dimension_item, QColor(Qt.red))
+        self.update_font_color(dimension_item, QColor(Qt.GlobalColor.red))
         self.layoutChanged.emit()
 
     def auto_assign_factor_weightings(self, dimension_item):
@@ -553,7 +553,7 @@ class JsonTreeModel(QAbstractItemModel):
             factor_item.setData(2, f"{factor_weighting:.2f}")  # noqa E231
         # Update the dimension's total weighting
         dimension_item.setData(2, "1.00")
-        # self.update_font_color(dimension_item, QColor(Qt.green))
+        # self.update_font_color(dimension_item, QColor(Qt.GlobalColor.green))
         self.layoutChanged.emit()
 
     def clear_layer_weightings(self, factor_item):
@@ -569,7 +569,7 @@ class JsonTreeModel(QAbstractItemModel):
             layer_item.setData(2, "0.00")
         # Update the factor's total weighting
         factor_item.setData(2, "0.00")
-        self.update_font_color(factor_item, QColor(Qt.red))
+        self.update_font_color(factor_item, QColor(Qt.GlobalColor.red))
         self.layoutChanged.emit()
 
     def auto_assign_layer_weightings(self, factor_item):
@@ -592,7 +592,7 @@ class JsonTreeModel(QAbstractItemModel):
             layer_item.setData(2, f"{layer_weighting:.2f}")  # noqa E231
         # Update the factor's total weighting
         factor_item.setData(2, "1.00")
-        # self.update_font_color(factor_item, QColor(Qt.green))
+        # self.update_font_color(factor_item, QColor(Qt.GlobalColor.green))
         self.layoutChanged.emit()
 
     def add_factor(self, dimension_item):
@@ -754,7 +754,7 @@ class JsonTreeModel(QAbstractItemModel):
 
         return self.createIndex(parentItem.row(), 0, parentItem)
 
-    def headerData(self, section, orientation, role=Qt.DisplayRole):
+    def headerData(self, section, orientation, role=Qt.ItemDataRole.DisplayRole):
         """
         Provides the data for the header at the given section and orientation.
 
@@ -766,7 +766,7 @@ class JsonTreeModel(QAbstractItemModel):
         Returns:
             QVariant: The data for the header.
         """
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+        if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole:
             return self.rootItem.data(section)
         return None
 

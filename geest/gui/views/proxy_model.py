@@ -8,7 +8,7 @@ This module contains functionality for proxy model.
 
 from typing import Dict, List, Optional
 
-from qgis.PyQt.QtCore import QAbstractProxyModel, QModelIndex, QObject, Qt
+from qgis.PyQt.QtCore import QAbstractProxyModel, QModelIndex, QObject, Qt, pyqtSignal
 
 from geest.core import JsonTreeItem
 
@@ -232,7 +232,7 @@ class PromotionProxyModel(QAbstractProxyModel):
                 return QModelIndex()
         return QModelIndex()
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole):
+    def data(self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole):
         """⚙️ Data.
 
         Args:
@@ -248,17 +248,17 @@ class PromotionProxyModel(QAbstractProxyModel):
         # Get the source model index using mapToSource
         source_index = self.mapToSource(index)
 
-        if role == Qt.DisplayRole and index.column() == 0:
+        if role == Qt.ItemDataRole.DisplayRole and index.column() == 0:
             # Return the data from the source model for the requested column
             return self.source_model.data(source_index, role)
-        elif role == Qt.DecorationRole and index.column() == 0:
+        elif role == Qt.ItemDataRole.DecorationRole and index.column() == 0:
             # Return the data from the source model for the requested column
             item = index.internalPointer()
             if isinstance(item, JsonTreeItem):
                 return item.getIcon()
-        elif role == Qt.DisplayRole and index.column() == 1:
+        elif role == Qt.ItemDataRole.DisplayRole and index.column() == 1:
             return None  # We only show the icon in column 1
-        elif role == Qt.DecorationRole and index.column() == 1:
+        elif role == Qt.ItemDataRole.DecorationRole and index.column() == 1:
             # Assuming column 1 is supposed to have an icon
             item = index.internalPointer()
             if isinstance(item, JsonTreeItem):

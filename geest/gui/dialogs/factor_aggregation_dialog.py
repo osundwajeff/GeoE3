@@ -105,7 +105,7 @@ class FactorAggregationDialog(CustomBaseDialog):
         self.title_label.setStyleSheet(
             "color: white; font-size: 16px; background-color: rgba(0, 0, 0, 0.5); padding: 5px;"
         )
-        self.title_label.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom)
 
         # Positioning the title label with a 10px offset from the left and bottom of the banner
         self.title_label.setGeometry(10, self.banner_label.height() - 30, self.banner_label.width() - 20, 20)
@@ -115,7 +115,7 @@ class FactorAggregationDialog(CustomBaseDialog):
         if parent_item:
             hierarchy_label = QLabel(f"{parent_item.data(0)} :: {self.tree_item.data(0)}")  # noqa E231
             hierarchy_label.setStyleSheet("font-size: 14px; font-weight: bold; color: gray;")  # noqa E231
-            layout.addWidget(hierarchy_label, alignment=Qt.AlignTop)
+            layout.addWidget(hierarchy_label, alignment=Qt.AlignmentFlag.AlignTop)
 
         # Description label
         description_label = QLabel()
@@ -196,25 +196,25 @@ class FactorAggregationDialog(CustomBaseDialog):
             layout.addWidget(self.osm_disclaimer_label)
 
         help_layout = QHBoxLayout()
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         self.help_icon = QPixmap(resources_path("resources", "images", "help.png"))
         self.help_icon = self.help_icon.scaledToWidth(20)
         self.help_label_icon = QLabel()
         self.help_label_icon.setPixmap(self.help_icon)
         self.help_label_icon.setScaledContents(True)
-        self.help_label_icon.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.help_label_icon.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.help_label_icon.setMaximumWidth(20)
-        self.help_label_icon.setAlignment(Qt.AlignRight)
+        self.help_label_icon.setAlignment(Qt.AlignmentFlag.AlignRight)
         help_layout.addWidget(self.help_label_icon)
 
         self.help_label = QLabel(
             "For detailed instructions on how to use this tool, please refer to the <a href='https://worldbank.github.io/GEEST/docs/user_guide.html'>GeoE3 User Guide</a>."
         )
         self.help_label.setOpenExternalLinks(True)
-        self.help_label.setAlignment(Qt.AlignCenter)
+        self.help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.help_label.linkActivated.connect(self.open_link_in_browser)
         help_layout.addWidget(self.help_label)
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         layout.addLayout(help_layout)
 
         # Buttons — outside the scroll area so they remain always visible
@@ -308,7 +308,7 @@ class FactorAggregationDialog(CustomBaseDialog):
         container = QWidget()
         layout = QHBoxLayout()
         layout.addWidget(checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         container.setLayout(layout)
         return container
@@ -320,7 +320,7 @@ class FactorAggregationDialog(CustomBaseDialog):
             row: Row.
             state: State.
         """
-        is_enabled = state == Qt.Checked
+        is_enabled = state == Qt.CheckState.Checked
         # Determine columns to skip (Use checkbox and Reset columns)
         skip_cols = [self.col_use]
         if self.weighting_column_visible:
@@ -366,7 +366,7 @@ class FactorAggregationDialog(CustomBaseDialog):
             data_source_widget = DataSourceWidgetFactory.create_widget(attributes["analysis_mode"], 1, attributes)
             if not data_source_widget:
                 continue
-            data_source_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+            data_source_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             data_source_widget.data_changed.connect(self.refresh_configuration)
             default_factor_weighting = attributes.get("default_factor_weighting", 0)
 
@@ -391,13 +391,13 @@ class FactorAggregationDialog(CustomBaseDialog):
                 if hasattr(data_source_widget, "get_osm_download_button"):
                     osm_button = data_source_widget.get_osm_download_button()
                 if osm_button:
-                    osm_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    osm_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     self.table.setCellWidget(row, self.col_osm, osm_button)
                     has_osm_download = True
 
             # Indicator Name
             name_item = QTableWidgetItem(attributes.get("indicator", ""))
-            name_item.setFlags(Qt.ItemIsEnabled)
+            name_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             self.table.setItem(row, self.col_indicator, name_item)
 
             if self.weighting_column_visible:
@@ -416,7 +416,7 @@ class FactorAggregationDialog(CustomBaseDialog):
             self.table.setCellWidget(row, self.col_use, checkbox_widget)
 
             guid_item = QTableWidgetItem(guid)
-            guid_item.setFlags(Qt.ItemIsEnabled)
+            guid_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             guid_item.setToolTip(str(item.attributes()))
             self.table.setItem(row, self.col_guid, guid_item)
 

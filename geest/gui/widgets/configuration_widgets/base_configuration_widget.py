@@ -56,7 +56,7 @@ class BaseConfigurationWidget(QWidget):
         # Internal container for the internal widgets
         self.internal_container: QWidget = QWidget(self)
         self.internal_container.setVisible(False)  # Initially hidden
-        self.internal_container.setSizePolicy(QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed))
+        self.internal_container.setSizePolicy(QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed))
         self.internal_layout: QVBoxLayout = QVBoxLayout(self.internal_container)
         self.internal_layout.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self.internal_container)

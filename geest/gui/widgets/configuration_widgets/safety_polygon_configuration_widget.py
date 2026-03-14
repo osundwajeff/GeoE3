@@ -44,7 +44,7 @@ class SafetyPolygonConfigurationWidget(BaseConfigurationWidget):
             self.info_label = QLabel("Classify polygons according to safety levels")
             self.internal_layout.addWidget(self.info_label)
             self.table_widget = QTableWidget()
-            self.table_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            self.table_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
             # Stop the label being editable
             self.table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             self.internal_layout.addWidget(self.table_widget)

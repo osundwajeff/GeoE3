@@ -101,13 +101,13 @@ class DimensionAggregationDialog(CustomBaseDialog):
         if parent_item:
             hierarchy_label = QLabel(f"{parent_item.data(0)} :: {self.tree_item.data(0)}")  # noqa E203
             hierarchy_label.setStyleSheet("font-size: 14px; font-weight: bold; color: gray;")
-            layout.addWidget(hierarchy_label, alignment=Qt.AlignTop)
+            layout.addWidget(hierarchy_label, alignment=Qt.AlignmentFlag.AlignTop)
 
         # Description label
         description_label = QLabel()
         description_label.setText(self.dimension_data.get("description", ""))
         description_label.setWordWrap(True)
-        description_label.setTextFormat(Qt.MarkdownText)
+        description_label.setTextFormat(Qt.TextFormat.MarkdownText)
         layout.addWidget(description_label)
 
         # Table setup
@@ -140,7 +140,7 @@ class DimensionAggregationDialog(CustomBaseDialog):
             is_factor_enabled = item.is_enabled()
 
             name_item = QTableWidgetItem(factor_id)
-            name_item.setFlags(Qt.ItemIsEnabled)
+            name_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             self.table.setItem(row, 0, name_item)
 
             # weightings
@@ -166,7 +166,7 @@ class DimensionAggregationDialog(CustomBaseDialog):
 
             # Guid column
             guid_item = QTableWidgetItem(guid)
-            guid_item.setFlags(Qt.ItemIsEnabled)
+            guid_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             self.table.setItem(row, 4, guid_item)
             guid_item.setToolTip(str(item.attributes()))
 
@@ -179,33 +179,33 @@ class DimensionAggregationDialog(CustomBaseDialog):
                     checkbox.setEnabled(False)
 
                 # Grey out all widgets in the row
-                name_item.setForeground(QColor(Qt.gray))
+                name_item.setForeground(QColor(Qt.GlobalColor.gray))
                 weighting_item.setEnabled(False)
                 reset_button.setEnabled(False)
-                guid_item.setForeground(QColor(Qt.gray))
+                guid_item.setForeground(QColor(Qt.GlobalColor.gray))
 
         layout.addWidget(self.table)
 
         help_layout = QHBoxLayout()
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         self.help_icon = QPixmap(resources_path("resources", "images", "help.png"))
         self.help_icon = self.help_icon.scaledToWidth(20)
         self.help_label_icon = QLabel()
         self.help_label_icon.setPixmap(self.help_icon)
         self.help_label_icon.setScaledContents(True)
-        self.help_label_icon.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.help_label_icon.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.help_label_icon.setMaximumWidth(20)
-        self.help_label_icon.setAlignment(Qt.AlignRight)
+        self.help_label_icon.setAlignment(Qt.AlignmentFlag.AlignRight)
         help_layout.addWidget(self.help_label_icon)
 
         self.help_label = QLabel(
             "For detailed instructions on how to use this tool, please refer to the <a href='https://worldbank.github.io/GEEST/docs/user_guide.html'>GeoE3 User Guide</a>."
         )
         self.help_label.setOpenExternalLinks(True)
-        self.help_label.setAlignment(Qt.AlignCenter)
+        self.help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.help_label.linkActivated.connect(self.open_link_in_browser)
         help_layout.addWidget(self.help_label)
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         layout.addLayout(help_layout)
 
         # Button box — outside the scroll area so it remains always visible
@@ -290,7 +290,7 @@ class DimensionAggregationDialog(CustomBaseDialog):
         container = QWidget()
         layout = QHBoxLayout()
         layout.addWidget(checkbox)
-        layout.setAlignment(Qt.AlignCenter)  # Center the checkbox
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the checkbox
         layout.setContentsMargins(0, 0, 0, 0)  # Remove margins
         container.setLayout(layout)
 
@@ -300,7 +300,7 @@ class DimensionAggregationDialog(CustomBaseDialog):
         """
         Enable or disable widgets in the row based on the checkbox state.
         """
-        is_enabled = state == Qt.Checked
+        is_enabled = state == Qt.CheckState.Checked
         for col in range(self.table.columnCount()):
             # Skip the column containing the checkbox (assumed to be column 2)
             if col == 2:
@@ -308,7 +308,7 @@ class DimensionAggregationDialog(CustomBaseDialog):
             # Disable QTableWidgetItems
             item = self.table.item(row, col)
             if item:
-                item.setFlags(Qt.ItemIsEnabled if is_enabled else Qt.NoItemFlags)
+                item.setFlags(Qt.ItemFlag.ItemIsEnabled if is_enabled else Qt.ItemFlag.NoItemFlags)
 
             # Disable widgets inside cells
             widget = self.table.cellWidget(row, col)

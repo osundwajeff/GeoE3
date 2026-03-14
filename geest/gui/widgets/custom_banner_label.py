@@ -41,7 +41,7 @@ class CustomBannerLabel(QLabel):
         super().__init__(parent)
         self.text = text
         self.banner_pixmap = QPixmap(banner_path)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.setMinimumHeight(self.banner_pixmap.height())
 
     def paintEvent(self, event):
@@ -68,6 +68,10 @@ class CustomBannerLabel(QLabel):
         # log_message(f"Font Size: {font_size}")
         painter.setFont(QFont("Arial", font_size))
 
-        painter.drawText(text_rect, Qt.AlignHCenter | Qt.AlignBottom | Qt.TextWordWrap, self.text)
+        painter.drawText(
+            text_rect,
+            Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignBottom | Qt.TextFlag.TextWordWrap,
+            self.text,
+        )
 
         painter.end()

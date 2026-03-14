@@ -41,7 +41,7 @@ class JsonTreeItem:
         self.itemData = data  # name, status, weighting, attributes(dict)
         self.childItems = []
         self.role = role  # Stores whether an item is a dimension, factor, or layer
-        self.font_color = QColor(Qt.black)  # Default font color
+        self.font_color = QColor(Qt.GlobalColor.black)  # Default font color
         # Add a unique guid for each item
         if guid:
             self.guid = guid

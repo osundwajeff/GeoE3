@@ -396,7 +396,7 @@ class MultiBufferDistancesORSWorkflow(WorkflowBase):
             self.attributes[self.result_file_key] = ""
             self.attributes["error_file"] = error_path
             self.attributes["error"] = f"Failed to generate isochrones for {self.workflow_name}: {e}"
-            return False
+            raise
         return json
 
     def _create_isochrone_layer(self, isochrone_data):

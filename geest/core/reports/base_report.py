@@ -206,7 +206,7 @@ class BaseReport:
         )
         # description_label.adjustSizeToText()
         description_label.setFixedSize(QgsLayoutSize(160, 40, QgsUnitTypes.LayoutMillimeters))
-        description_label.setHAlign(Qt.AlignJustify)
+        description_label.setHAlign(Qt.AlignmentFlag.AlignJustify)
         self.layout.addLayoutItem(description_label)
         return page
 
@@ -428,8 +428,8 @@ class BaseReport:
         page_title.setText(title)
         page_title.setTextFormat(text_format)
         page_title.setMode(QgsLayoutItemLabel.ModeFont)
-        page_title.setVAlign(Qt.AlignCenter)
-        page_title.setHAlign(Qt.AlignLeft)
+        page_title.setVAlign(Qt.AlignmentFlag.AlignCenter)
+        page_title.setHAlign(Qt.AlignmentFlag.AlignLeft)
         # wrap the text if too long
         page_title.setFixedSize(QgsLayoutSize(180, 40, QgsUnitTypes.LayoutMillimeters))
         # Position the label on the current page
@@ -457,8 +457,8 @@ class BaseReport:
         page_number.setText(f"{current_page}")
         text_format.setSize(12)
         text_format.setColor(QColor(0, 0, 0))
-        page_number.setVAlign(Qt.AlignCenter)
-        page_number.setHAlign(Qt.AlignCenter)
+        page_number.setVAlign(Qt.AlignmentFlag.AlignCenter)
+        page_number.setHAlign(Qt.AlignmentFlag.AlignCenter)
         page_number.setTextFormat(text_format)
 
         page_number.setFixedSize(QgsLayoutSize(10, 10, QgsUnitTypes.LayoutMillimeters))
@@ -514,7 +514,7 @@ class BaseReport:
         footer_label.setMode(QgsLayoutItemLabel.ModeHtml)
         # Position the label on the current page
         footer_label.attemptMove(QgsLayoutPoint(80, 265, QgsUnitTypes.LayoutMillimeters), page=page_number)
-        footer_label.setHAlign(Qt.AlignJustify)
+        footer_label.setHAlign(Qt.AlignmentFlag.AlignJustify)
         # Set the font to white
         text_format = QgsTextFormat()
         text_format.setColor(QColor(255, 255, 255))
@@ -535,7 +535,7 @@ class BaseReport:
         credits_label.setTextFormat(text_format)
         # Position the label on the current page
         credits_label.attemptMove(QgsLayoutPoint(80, 278, QgsUnitTypes.LayoutMillimeters), page=page_number)
-        credits_label.setHAlign(Qt.AlignRight)
+        credits_label.setHAlign(Qt.AlignmentFlag.AlignRight)
         self.layout.addLayoutItem(credits_label)
 
     def export_pdf(self, output_path):

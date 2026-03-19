@@ -89,4 +89,4 @@ class LayerDescriptionItem(QgsMapCanvasItem):
         new_left = logo_x + scaled_logo.width()
         rect.setLeft(new_left)
         # Set white background with 50% transparency
-        painter.drawText(rect, Qt.AlignCenter, label_text)
+        painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, label_text)

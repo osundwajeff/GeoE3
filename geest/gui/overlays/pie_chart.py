@@ -50,12 +50,12 @@ class PieChartItem(QgsMapCanvasItem):
             QColor("#2c7bb6"),  # dark blue
         ]
         self.colors = colors or [
-            Qt.red,
-            Qt.blue,
-            Qt.green,
-            Qt.yellow,
-            Qt.cyan,
-            Qt.magenta,
+            Qt.GlobalColor.red,
+            Qt.GlobalColor.blue,
+            Qt.GlobalColor.green,
+            Qt.GlobalColor.yellow,
+            Qt.GlobalColor.cyan,
+            Qt.GlobalColor.magenta,
         ]
 
     def paint(self, painter: QPainter, option=None, widget=None):
@@ -68,7 +68,7 @@ class PieChartItem(QgsMapCanvasItem):
             return
         diameter = 100
         image = QImage(diameter, diameter, QImage.Format_ARGB32)
-        image.fill(Qt.white)
+        image.fill(Qt.GlobalColor.white)
 
         chart_x = painter.device().width() - (diameter + 20)
         chart_y = 10
@@ -95,11 +95,11 @@ class PieChartItem(QgsMapCanvasItem):
             if i == max_index:
                 continue  # Skip the largest slice for the initial pie chart
             angle_span = 360 * count / total
-            self.painter.setPen(Qt.NoPen)
+            self.painter.setPen(Qt.PenStyle.NoPen)
             self.painter.setBrush(self.colors[i % len(self.colors)])
             self.painter.drawPie(rect, int(start_angle * 16), int(angle_span * 16))
             # Draw drop shadow for each slice
-            self.painter.setBrush(Qt.gray)
+            self.painter.setBrush(Qt.GlobalColor.gray)
 
             self.painter.setOpacity(0.3)
             self.painter.drawPie(rect, int(start_angle * 16), int(angle_span * 16))
@@ -134,15 +134,15 @@ class PieChartItem(QgsMapCanvasItem):
                     rect.width(),
                     rect.height(),
                 )
-                self.painter.setBrush(Qt.gray)
-                self.painter.setPen(Qt.NoPen)
+                self.painter.setBrush(Qt.GlobalColor.gray)
+                self.painter.setPen(Qt.PenStyle.NoPen)
                 self.painter.setOpacity(0.3)
                 self.painter.drawPie(shadow_exploded_rect, int(start_angle * 16), int(angle_span * 16))
                 self.painter.setOpacity(1.0)
 
                 # Draw the exploded slice
                 self.painter.setBrush(self.colors[i % len(self.colors)])
-                self.painter.setPen(Qt.NoPen)
+                self.painter.setPen(Qt.PenStyle.NoPen)
                 self.painter.drawPie(exploded_rect, int(start_angle * 16), int(angle_span * 16))
 
                 # Label at the end of exploded slice
@@ -158,7 +158,7 @@ class PieChartItem(QgsMapCanvasItem):
                     + radius * math.sin(math.radians(-mid_angle))  # noqa W503
                 )
 
-                self.painter.setPen(Qt.black)
+                self.painter.setPen(Qt.GlobalColor.black)
                 self.painter.setFont(QFont("Arial", 8))
                 self.painter.drawText(int(label_x), int(label_y), self.labels[i])
 

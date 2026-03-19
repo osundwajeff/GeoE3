@@ -57,7 +57,7 @@ class SafetyRasterConfigurationWidget(BaseConfigurationWidget):
 
             html = f"""
             <p><b>Nighttime Lights ({data_source})</b></p>
-            <p><i>Method: Fisher-Jenks Natural Breaks</i></p>
+            <p><i>Method: Automatic (Binary for dark areas, Jenks for varied lighting)</i></p>
             <table border='1' cellpadding='4' cellspacing='0'>
                 <tr>
                     <th>GEEST Class</th>

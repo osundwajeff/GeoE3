@@ -166,14 +166,13 @@ class GHSLDownloader:
                 log_message(f"Download finished: {zip_path}")
                 loop.quit()
 
-            def on_error(err_code, err_msg):
+            def on_error(err_msg):
                 """🔄 On error.
 
                 Args:
-                    err_code: Err code.
-                    err_msg: Err msg.
+                    err_msg: QStringList of error messages from QGIS.
                 """
-                log_message(f"Download error {err_code}: {err_msg}")
+                log_message(f"Download error: {err_msg}")
                 loop.quit()
 
             downloader = QgsFileDownloader(QUrl(url), zip_path, authcfg="", httpMethod=Qgis.HttpMethod.Get)

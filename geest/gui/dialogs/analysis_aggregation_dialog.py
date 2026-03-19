@@ -138,26 +138,26 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
         self.load_combo_from_model(self.raster_combo, self.raster_lineedit, "raster_mask")
 
         help_layout = QHBoxLayout()
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         self.help_icon = QPixmap(resources_path("resources", "images", "help.png"))
         self.help_icon = self.help_icon.scaledToWidth(20)
         self.help_label_icon = QLabel()
         self.help_label_icon.setPixmap(self.help_icon)
         self.help_label_icon.setScaledContents(True)
-        self.help_label_icon.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.help_label_icon.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.help_label_icon.setMaximumWidth(20)
-        self.help_label_icon.setAlignment(Qt.AlignRight)
+        self.help_label_icon.setAlignment(Qt.AlignmentFlag.AlignRight)
         help_layout.addWidget(self.help_label_icon)
 
         self.help_label = QLabel(
             "For detailed instructions on how to use this tool, please refer to the <a href='https://worldbank.github.io/GEEST/docs/user_guide.html'>GeoE3 User Guide</a>."
         )
         self.help_label.setOpenExternalLinks(True)
-        self.help_label.setAlignment(Qt.AlignCenter)
+        self.help_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.help_label.linkActivated.connect(self.open_link_in_browser)
         help_layout.addWidget(self.help_label)
-        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum))
+        help_layout.addItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
         self.help_widget.setLayout(help_layout)
 
         auto_calculate_button = QPushButton("Balance Weights")
@@ -273,7 +273,7 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
             default_analysis_weighting = attributes.get("default_analysis_weighting", 0)
 
             name_item = QTableWidgetItem(dimension_id)
-            name_item.setFlags(Qt.ItemIsEnabled)
+            name_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             self.table.setItem(row, 0, name_item)
 
             # weightings
@@ -297,7 +297,7 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
 
             # Guid column
             guid_item = QTableWidgetItem(guid)
-            guid_item.setFlags(Qt.ItemIsEnabled)
+            guid_item.setFlags(Qt.ItemFlag.ItemIsEnabled)
             self.table.setItem(row, 4, guid_item)
             guid_item.setToolTip(str(item.attributes()))
 
@@ -309,7 +309,7 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
                 try:
                     item = self.table.item(row, col)
                     item.setEnabled(False)
-                    # item.setFlags(Qt.ItemIsEnabled)
+                    # item.setFlags(Qt.ItemFlag.ItemIsEnabled)
                 except AttributeError:
                     pass
         # Set the table widget height to be no taller than its content
@@ -462,7 +462,7 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
         container = QWidget()
         layout = QHBoxLayout()
         layout.addWidget(checkbox)
-        layout.setAlignment(Qt.AlignCenter)  # Center the checkbox
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Center the checkbox
         layout.setContentsMargins(0, 0, 0, 0)  # Remove margins
         container.setLayout(layout)
 
@@ -473,9 +473,9 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
 
         Args:
             row: The row index containing the widgets to toggle.
-            state: The checkbox state (Qt.Checked or Qt.Unchecked).
+            state: The checkbox state (Qt.CheckState.Checked or Qt.Unchecked).
         """
-        is_enabled = state == Qt.Checked
+        is_enabled = state == Qt.CheckState.Checked
         for col in range(self.table.columnCount()):
             # Skip the column containing the checkbox (assumed to be column 2)
             if col == 2:
@@ -483,7 +483,7 @@ class AnalysisAggregationDialog(FORM_CLASS, CustomBaseDialog):
             # Disable QTableWidgetItems
             item = self.table.item(row, col)
             if item:
-                item.setFlags(Qt.ItemIsEnabled if is_enabled else Qt.NoItemFlags)
+                item.setFlags(Qt.ItemFlag.ItemIsEnabled if is_enabled else Qt.ItemFlag.NoItemFlags)
 
             # Disable widgets inside cells
             widget = self.table.cellWidget(row, col)

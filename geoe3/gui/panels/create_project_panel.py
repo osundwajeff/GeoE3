@@ -340,7 +340,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
         return self.layer_combo.currentLayer()
 
     def crs(self, working_directory=None):
-        """Get the CRS for the GEEST study area (NOT QGIS project CRS).
+        """Get the CRS for the GEOE3 study area (NOT QGIS project CRS).
 
         If study area already exists, return its CRS from study_area.gpkg.
         Otherwise, calculate CRS from the boundary layer (UTM zone or boundary layer CRS).

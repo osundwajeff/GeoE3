@@ -31,7 +31,7 @@ class OpportunitiesByWeeScoreProcessingTask(QgsTask):
     mask to it. It then combines the resulting rasters into a VRT, and applies a QML style.
 
     It takes as input a GeoE3 Score layer (output as the result of Analysis level aggregation
-    of GEEST workflow). This GeoE3 Score layer has the following classes:
+    of GEOE3 workflow). This GeoE3 Score layer has the following classes:
 
     | Range  | Description               | Color      |
     |--------|---------------------------|------------|

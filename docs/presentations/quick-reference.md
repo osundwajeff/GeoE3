@@ -62,7 +62,7 @@ def profile_function(func):
 
         QgsMessageLog.logMessage(
             f"{func.__name__} took {duration:.4f}s",
-            tag="GeoE3-Profile",
+            tag="Geest-Profile",
             level=Qgis.Info
         )
         return result

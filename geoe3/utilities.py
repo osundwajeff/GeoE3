@@ -1,6 +1,6 @@
 # coding=utf-8
 
-"""Utilities for GEEST."""
+"""Utilities for GEOE3."""
 
 __copyright__ = "Copyright 2022, Tim Sutton"
 __license__ = "GPL version 3"

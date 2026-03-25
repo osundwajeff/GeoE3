@@ -29,7 +29,7 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
     (GeoE3 and POP), combines the resulting rasters into a VRT, and applies a QML style.
 
     It takes as input a GeoE3 Score layer (output as the result of Analysis level aggregation
-    of GEEST workflow). This GeoE3 Score layer has the following classes:
+    of GEOE3 workflow). This GeoE3 Score layer has the following classes:
 
     | Range  | Description               | Color      |
     |--------|---------------------------|------------|
@@ -150,10 +150,10 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
         dimension_check=False,
     ) -> None:
         """
-        Checks if GEEST and POP rasters have the same origin, dimensions, and pixel sizes.
+        Checks if GEOE3 and POP rasters have the same origin, dimensions, and pixel sizes.
 
         Args:
-            geest_raster (QgsRasterLayer): The GEEST raster layer.
+            geest_raster (QgsRasterLayer): The GEOE3 raster layer.
             pop_raster (QgsRasterLayer): The population raster layer.
             dimension_check (bool): Flag to check if the rasters have the same dimensions. Defaults to False.
 
@@ -161,7 +161,7 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
             ValueError: If one or both input rasters are invalid, or if rasters don't share the same extent or dimensions when dimension_check is True.
         """
         log_message("Validating input rasters")
-        log_message(f"GEEST Raster: {geest_raster.source()}")
+        log_message(f"GEOE3 Raster: {geest_raster.source()}")
         log_message(f"POP Raster  : {pop_raster.source()}")  # noqa E203
 
         if not geest_raster.isValid() or not pop_raster.isValid():

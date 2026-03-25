@@ -250,7 +250,7 @@ def profile_function(func):
 
         QgsMessageLog.logMessage(
             f"{func.__name__} took {duration:.4f}s",
-            tag="GeoE3-Profile",
+            tag="Geest-Profile",
             level=Qgis.Info
         )
         return result
@@ -276,7 +276,7 @@ class WorkflowJob:
         pass
 ```
 
-View results in QGIS Log Panel → Filter by "GeoE3-Profile"
+View results in QGIS Log Panel → Filter by "Geest-Profile"
 
 ---
 
@@ -688,7 +688,7 @@ def benchmark_algorithm(algorithm, parameters):
 
     QgsMessageLog.logMessage(
         f"Algorithm '{algorithm}' took {duration:.2f}s",
-        tag="GeoE3-Benchmark",
+        tag="Geest-Benchmark",
         level=Qgis.Info
     )
 
@@ -720,7 +720,7 @@ class ProfiledTask(QgsTask):
         duration = time.perf_counter() - self.start_time
         QgsMessageLog.logMessage(
             f"Task completed in {duration:.2f}s",
-            tag="GeoE3", level=Qgis.Info
+            tag="Geest", level=Qgis.Info
         )
 ```
 
@@ -912,7 +912,7 @@ assert optimized_result == original_result
 ## Best Practices: Code Organization
 
 ```python
-# geoe3/core/profiling.py
+# geest/core/profiling.py
 class PerformanceMonitor:
     """Centralized performance monitoring for GEEST."""
 
@@ -928,7 +928,7 @@ class PerformanceMonitor:
         for name, duration in self.metrics.items():
             QgsMessageLog.logMessage(
                 f"{name}: {duration:.4f}s",
-                tag="GeoE3-Performance",
+                tag="Geest-Performance",
                 level=Qgis.Info
             )
 ```
@@ -1221,7 +1221,7 @@ def profile_slow_functions(threshold_seconds: float = 1.0):
             if duration > threshold_seconds:
                 QgsMessageLog.logMessage(
                     f"SLOW: {func.__name__} took {duration:.2f}s",
-                    tag="GeoE3-Performance",
+                    tag="Geest-Performance",
                     level=Qgis.Warning
                 )
 

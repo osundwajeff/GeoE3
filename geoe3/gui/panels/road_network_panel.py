@@ -534,7 +534,7 @@ class RoadNetworkPanel(FORM_CLASS, QWidget):
                 self.road_layer_combo.setLayer(layer)
                 if self._message_bar:
                     self._message_bar.pushMessage(
-                        "GEEST",
+                        "GEOE3",
                         "Active transport network loaded from cache (already downloaded)",
                         level=Qgis.Info,
                         duration=5,

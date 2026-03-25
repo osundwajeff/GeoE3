@@ -107,7 +107,7 @@ def classFactory(iface):  # pylint: disable=missing-function-docstring
 
 class GeestPlugin:
     """
-    GEEST 2 plugin interface.
+    GEOE3 2 plugin interface.
 
     This class provides the main interface for the GeoE3 (Geospatial Enabling Environments for Employment Tool)
     plugin for QGIS. It handles the plugin initialization, GUI setup, debugging capabilities,
@@ -254,7 +254,7 @@ class GeestPlugin:
         developer_mode = int(setting(key="developer_mode", default=0))
         if developer_mode:
             debug_icon = QIcon(resources_path("resources", "geoe3-debug.svg"))
-            self.debug_action = QAction(debug_icon, "GEEST Debug Mode", self.iface.mainWindow())
+            self.debug_action = QAction(debug_icon, "GEOE3 Debug Mode", self.iface.mainWindow())
             self.debug_action.triggered.connect(self.debug)
             self.iface.addToolBarIcon(self.debug_action)
 

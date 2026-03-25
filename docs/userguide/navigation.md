@@ -52,7 +52,7 @@ In this step, you need to select a project folder to begin your work. The plugin
 <p align="center">
 <img
     src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/navigation_set.png"
-    alt="GeoE3 Project"
+    alt="Geest Project"
     style="width:55%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -64,7 +64,7 @@ Option 1: **Open an Existing Project**:
 <p align="center">
  <img
     src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/GEEST%20project%20open.jpg"
-    alt="Open GeoE3 Project"
+    alt="Open Geest Project"
     style="width:55%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -76,7 +76,7 @@ Option 2: **Create a New Project**:
 <p align="center">
  <img
     src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/navigation_create1.png"
-    alt="New GeoE3 Project"
+    alt="New Geest Project"
     style="width:75%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -119,7 +119,7 @@ How to Create a New Folder
 <p align="center">
  <img
     src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/navigation_road.png"
-    alt="New GeoE3 Project"
+    alt="New Geest Project"
     style="width:45%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -170,7 +170,7 @@ Important Notes:
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/GEEST%20project%20final.jpg"
-    alt="GeoE3 Project final"
+    alt="Geest Project final"
     style="width:55%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -180,7 +180,7 @@ Important Notes:
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/navigation_report.png"
-    alt="GeoE3 Project final"
+    alt="Geest Project final"
     style="width:55%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -206,7 +206,7 @@ Once this pre-processing step is completed, you will seamlessly transition to th
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/GEEST%20data%20processing%20UI.jpg"
-    alt="GeoE3 data processing"
+    alt="Geest data processing"
     style="width:65%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">
@@ -221,7 +221,7 @@ The data processing interface serves as the central hub for managing, configurin
 
 <p align="center">
  <img src="https://raw.githubusercontent.com/worldbank/GEEST/main/docs/images/new%20images/Nav_understand.jpg"
-    alt="GeoE3 data processing"
+    alt="Geest data processing"
     style="width:65%;"
     title="Click to enlarge"
     onclick="window.open(this.src, '_blank')">

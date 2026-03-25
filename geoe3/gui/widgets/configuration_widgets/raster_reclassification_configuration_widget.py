@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""GEEST GUI widgets."""
+"""GEOE3 GUI widgets."""
 
 __copyright__ = "Copyright 2022, Tim Sutton"
 __license__ = "GPL version 3"

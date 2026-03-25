@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Core classes for GEEST."""
+"""Core classes for GEOE3."""
 
 __copyright__ = "Copyright 2022, Tim Sutton"
 __license__ = "GPL version 3"

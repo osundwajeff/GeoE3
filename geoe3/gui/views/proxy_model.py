@@ -78,7 +78,7 @@ class PromotionProxyModel(QAbstractProxyModel):
             ):
                 # log_message(
                 #    f"Found node with only one child {parent_item.data(0)}",
-                #    "Geest",
+                #    "GeoE3",
                 #    Qgis.Info,
                 # )
                 # Replace parent with the child

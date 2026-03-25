@@ -26,7 +26,7 @@ The script will:
 1. Check for Fedora and Miniconda
 2. Install system dependencies via dnf
 3. Install actionlint manually
-4. Activate your `geest` conda environment
+4. Activate your `geoe3` conda environment
 5. Install Python dependencies
 6. Install npm packages (cspell)
 7. Configure pre-commit hooks
@@ -73,17 +73,17 @@ actionlint --version
 
 ### Step 3: Set Up Conda Environment
 
-Create and activate the `geest` conda environment:
+Create and activate the `geoe3` conda environment:
 
 ```bash
 # Create conda environment (if not exists)
-conda create -n geest python=3.10 -y
+conda create -n geoe3 python=3.10 -y
 
 # Activate the environment
-conda activate geest
+conda activate geoe3
 ```
 
-**Tip:** Add conda activation to your workflow or use `conda activate geest` whenever working on GEEST.
+**Tip:** Add conda activation to your workflow or use `conda activate geoe3` whenever working on GEEST.
 
 ### Step 4: Install Python Dependencies
 
@@ -212,7 +212,7 @@ The `.pre-commit-config.yaml` includes these hooks:
 Every time you start working on GEEST:
 
 ```bash
-conda activate geest
+conda activate geoe3
 cd /path/to/GEEST
 ```
 
@@ -220,10 +220,10 @@ cd /path/to/GEEST
 
 ```bash
 # Make your code changes
-vim geest/core/some_file.py
+vim geoe3/core/some_file.py
 
 # Stage changes
-git add geest/core/some_file.py
+git add geoe3/core/some_file.py
 
 # Commit (pre-commit hooks run automatically)
 git commit -m "Add new feature"
@@ -299,7 +299,7 @@ exec bash
 
 **Solution:** Ensure conda environment is activated:
 ```bash
-conda activate geest
+conda activate geoe3
 pip install -r requirements-dev.txt
 ```
 
@@ -309,7 +309,7 @@ pip install -r requirements-dev.txt
 
 ```bash
 # Activate environment
-conda activate geest
+conda activate geoe3
 
 # Run all tests
 pytest
@@ -318,7 +318,7 @@ pytest
 pytest test/test_workflow.py
 
 # With coverage
-pytest --cov=geest
+pytest --cov=geoe3
 ```
 
 ---
@@ -351,7 +351,7 @@ python admin.py install
 - [ ] Miniconda installed
 - [ ] System packages installed (git, ShellCheck, yamllint, nodejs, npm)
 - [ ] actionlint installed manually
-- [ ] `geest` conda environment created
+- [ ] `geoe3` conda environment created
 - [ ] Python dependencies installed from requirements-dev.txt
 - [ ] cspell installed via npm
 - [ ] pre-commit installed and hooks configured

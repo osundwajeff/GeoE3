@@ -140,7 +140,7 @@ class RasterDataSourceWidget(BaseDataSourceWidget):
         Opens a file dialog to select a for the raster (paths) layer and updates the QLineEdit with the file path.
         """
         try:
-            last_dir = self.settings.value("Geest/lastRasterDir", "")
+            last_dir = self.settings.value("GeoE3/lastRasterDir", "")
 
             file_path, _ = QFileDialog.getOpenFileName(
                 self, "Select Raster Layer", last_dir, "Rasters (*.vrt *.tif *.asc)"
@@ -155,7 +155,7 @@ class RasterDataSourceWidget(BaseDataSourceWidget):
                 # Trigger resize event explicitly
                 self.resizeEvent(None)
                 # Save the directory of the selected file to QSettings
-                self.settings.setValue("Geest/lastRasterDir", os.path.dirname(file_path))
+                self.settings.setValue("GeoE3/lastRasterDir", os.path.dirname(file_path))
 
         except Exception as e:
             log_message(f"Error selecting raster: {e}", level=Qgis.Critical)

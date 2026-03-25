@@ -1,5 +1,5 @@
 # coding=utf-8
-"""This module has the main settings interaction logic for Geest."""
+"""This module has the main settings interaction logic for GeoE3."""
 
 __copyright__ = "Copyright 2022, Tim Sutton"
 __license__ = "GPL version 3"
@@ -22,7 +22,7 @@ FORM_CLASS = get_ui_class("geest_settings_base.ui")
 
 
 class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
-    """Dialog implementation class Geest class."""
+    """Dialog implementation class GeoE3 class."""
 
     def __init__(self, parent=None):
         """Constructor for the settings buffer dialog.
@@ -34,7 +34,7 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
         self.setupUi(self)
         # We need this so we can open the settings to our own
         # page from the plugin button bar.
-        self.setObjectName("geest")
+        self.setObjectName("geoe3")
         # The maximum number of concurrent threads to allow
         # during rendering. Probably setting to the same number
         # of CPU cores you have would be a good conservative approach
@@ -164,7 +164,7 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
 
 class GeestOptionsFactory(QgsOptionsWidgetFactory):
     """
-    Factory class for Geest options widget
+    Factory class for GeoE3 options widget
     """
 
     def __init__(self):  # pylint: disable=useless-super-delegation
@@ -178,7 +178,7 @@ class GeestOptionsFactory(QgsOptionsWidgetFactory):
         Returns:
             The result of the operation.
         """
-        return QIcon(resources_path("resources", "geest-settings.svg"))
+        return QIcon(resources_path("resources", "geoe3-settings.svg"))
 
     def createWidget(self, parent):  # pylint: disable=missing-function-docstring
         """⚙️ Createwidget.

@@ -236,11 +236,11 @@ class TestUtilities(unittest.TestCase):
         mock_root = MagicMock()
         mock_project.instance.return_value.layerTreeRoot.return_value = mock_root
 
-        # Test when Geest group doesn't exist
+        # Test when GeoE3 group doesn't exist
         mock_root.findGroup.return_value = None
         self.assertIsNone(geest_layer_ids())
 
-        # Test when Geest group exists with layers
+        # Test when GeoE3 group exists with layers
         mock_geest_group = MagicMock()
         mock_root.findGroup.return_value = mock_geest_group
 

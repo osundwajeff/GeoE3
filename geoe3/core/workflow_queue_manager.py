@@ -92,7 +92,7 @@ class WorkflowQueueManager(QObject):
         # Use unique description to avoid collision in active_tasks dictionary
         # when running multiple concurrent tasks (fixes issue #231)
         task = WorkflowJob(
-            description=f"Geest: {item.attribute('id', item.guid)}",
+            description=f"GeoE3: {item.attribute('id', item.guid)}",
             item=item,
             cell_size_m=cell_size_m,
             analysis_scale=analysis_scale,

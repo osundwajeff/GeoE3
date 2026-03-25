@@ -1,6 +1,6 @@
 # coding=utf-8
 
-"""Utilities for Geest."""
+"""Utilities for GeoE3."""
 
 __copyright__ = "Copyright 2022, Tim Sutton"
 __license__ = "GPL version 3"
@@ -104,7 +104,7 @@ def add_to_map(
 
         project = QgsProject.instance()
 
-        # Check if 'Geest' group exists, otherwise create it
+        # Check if 'GeoE3' group exists, otherwise create it
         root = project.layerTreeRoot()
         geoe3_group = root.findGroup(group)
         if geoe3_group is None:

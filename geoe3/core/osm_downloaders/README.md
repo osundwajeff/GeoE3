@@ -5,4 +5,4 @@ Quick OSM Plugin:
 * downloader.py
 * osm.py
 * exceptions.py
-* geest.core.i18n.py
+* geoe3.core.i18n.py

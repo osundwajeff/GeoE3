@@ -92,8 +92,8 @@ def main():
     """🔄 Main."""
     # Set default paths
     cwd = os.getcwd()
-    model_json_path = os.path.join(cwd, "geest", "resources", "model.json")
-    schema_json_path = os.path.join(cwd, "geest", "resources", "schema.json")
+    model_json_path = os.path.join(cwd, "geoe3", "resources", "model.json")
+    schema_json_path = os.path.join(cwd, "geoe3", "resources", "schema.json")
 
     # Check if model.json exists
     if not os.path.exists(model_json_path):

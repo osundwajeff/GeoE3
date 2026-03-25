@@ -101,7 +101,7 @@ padding: 4px;</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../resources/geest-banner.png</pixmap>
+      <pixmap>../resources/geoe3-banner.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>

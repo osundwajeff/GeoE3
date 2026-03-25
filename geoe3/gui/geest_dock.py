@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""📦 Geest Dock module.
+"""📦 GeoE3 Dock module.
 
-This module contains functionality for geest dock.
+This module contains functionality for geoe3 dock.
 """
 
 import os
@@ -44,7 +44,7 @@ HELP_PANEL = 8
 
 
 class GeestDock(QDockWidget):
-    """🎯 Geest Dock.
+    """🎯 GeoE3 Dock.
 
     Attributes:
         background_image: Background image.
@@ -360,7 +360,7 @@ class GeestDock(QDockWidget):
             checksum = hash(project_path)
             geest_project = setting(str(checksum), None, prefer_project_setting=True)
             log_message(
-                f"Geest project path : {geest_project} ({checksum})",  # noqa E225
+                f"GeoE3 project path : {geest_project} ({checksum})",  # noqa E225
                 tag="GeoE3",  # noqa E225
                 level=Qgis.Info,  # noqa E225
             )
@@ -376,7 +376,7 @@ class GeestDock(QDockWidget):
                     self.tree_widget.set_qgis_project_path(project_path)
 
     def open_associated_qgis_project(self) -> None:
-        """Open the QGIS project associated with the current Geest project.
+        """Open the QGIS project associated with the current GeoE3 project.
 
         Reads the qgis_project_path from the model and opens it if it exists
         and differs from the current project.

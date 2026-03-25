@@ -610,7 +610,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
         gpkg_path = os.path.join(self.working_dir, "study_area", "study_area.gpkg")
         project = QgsProject.instance()
 
-        # Check if 'Geest' group exists, otherwise create it
+        # Check if 'GeoE3' group exists, otherwise create it
         root = project.layerTreeRoot()
         geoe3_group = root.findGroup("GeoE3 Study Area")
         if geoe3_group is None:

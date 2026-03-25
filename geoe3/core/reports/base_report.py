@@ -401,7 +401,7 @@ class BaseReport:
 
         # Add background image
         bg_image = QgsLayoutItemPicture(self.layout)
-        bg_image_path = resources_path("resources", "images", "geest-page-header-bg.png")
+        bg_image_path = resources_path("resources", "images", "geoe3-page-header-bg.png")
         bg_image.setPicturePath(bg_image_path)
         bg_image.attemptMove(
             QgsLayoutPoint(0, 0, QgsUnitTypes.LayoutMillimeters),
@@ -476,7 +476,7 @@ class BaseReport:
 
         # Add background image
         bg_image = QgsLayoutItemPicture(self.layout)
-        bg_image_path = resources_path("resources", "images", "geest-page-footer-bg.png")
+        bg_image_path = resources_path("resources", "images", "geoe3-page-footer-bg.png")
         bg_image.setPicturePath(bg_image_path)
         bg_image.attemptMove(
             QgsLayoutPoint(0, 260, QgsUnitTypes.LayoutMillimeters),

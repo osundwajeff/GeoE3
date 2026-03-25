@@ -383,7 +383,7 @@ class VectorDataSourceWidget(BaseDataSourceWidget):
         """
         try:
             settings = QSettings()
-            last_dir = settings.value("Geest/lastShapefileDir", "")
+            last_dir = settings.value("GeoE3/lastShapefileDir", "")
 
             # Open file dialog to select a shapefile
             file_path, _ = QFileDialog.getOpenFileName(self, "Select Shapefile", last_dir, "Shapefiles (*.shp)")
@@ -398,7 +398,7 @@ class VectorDataSourceWidget(BaseDataSourceWidget):
                 # Trigger resize event explicitly
                 self.resizeEvent(None)
                 # Save the directory of the selected file to QSettings
-                settings.setValue("Geest/lastShapefileDir", os.path.dirname(file_path))
+                settings.setValue("GeoE3/lastShapefileDir", os.path.dirname(file_path))
 
         except Exception as e:
             log_message(f"Error selecting shapefile: {e}", level=Qgis.Critical)

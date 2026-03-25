@@ -56,7 +56,7 @@ class OpportunitiesMaskProcessor(QgsTask):
         feedback (Optional[QgsFeedback]): QGIS feedback object.
         force_clear (bool): Flag to force clearing of all outputs before processing.
 
-    Concrete implementation of a geest insight for masking by job opportunities.
+    Concrete implementation of a geoe3 insight for masking by job opportunities.
 
     It will create a raster layer where all cells outside the masked areas (defined
     by the input polygons layer) are set to a no data value.

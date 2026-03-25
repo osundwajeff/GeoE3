@@ -46,7 +46,7 @@ class GEESTTask(QgsTask):
             if self.node.get("processed", False) and os.path.exists(output_path):
                 QgsMessageLog.logMessage(
                     f"{self.node['name']} already processed",
-                    "Geest",
+                    "GeoE3",
                     Qgis.Info,
                 )
                 self.finished.emit(True)
@@ -55,13 +55,13 @@ class GEESTTask(QgsTask):
             # Simulate processing
             self.process_node()
             self.node["processed"] = True
-            QgsMessageLog.logMessage(f"Processed {self.node['name']}", "Geest", Qgis.Info)
+            QgsMessageLog.logMessage(f"Processed {self.node['name']}", "GeoE3", Qgis.Info)
             self.finished.emit(True)
             return True
         except Exception as e:
             QgsMessageLog.logMessage(
                 f"Task failed for {self.node['name']}: {str(e)}",
-                "Geest",
+                "GeoE3",
                 Qgis.Critical,
             )
             self.error.emit()

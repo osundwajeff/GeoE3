@@ -6,10 +6,10 @@
                 <version>0.5.5</version>
                 <qgis_minimum_version>3.0</qgis_minimum_version>
                 <homepage><![CDATA[https://github.com/worldbank/GEEST]]></homepage>
-                <file_name>geest.0.5.5.zip</file_name>
+                <file_name>geoe3.0.5.5.zip</file_name>
                 <icon>icon.png</icon>
                 <author_name><![CDATA[Kartoza for and with The World Bank]]></author_name>
-                <download_url>https://github.com/kartoza/GEEST2/releases/download/v0.5.5/geest.0.5.5.zip</download_url>
+                <download_url>https://github.com/kartoza/GEEST2/releases/download/v0.5.5/geoe3.0.5.5.zip</download_url>
                 <update_date>2025-02-05 17:15:48</update_date>
                 <experimental>False</experimental>
                 <deprecated>False</deprecated>

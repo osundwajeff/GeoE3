@@ -260,8 +260,8 @@ class SpreadsheetToJsonParser:
 
 
 if __name__ == "__main__":
-    parser = SpreadsheetToJsonParser("geest/resources/geest.ods")
+    parser = SpreadsheetToJsonParser("geoe3/resources/geoe3.ods")
     parser.load_spreadsheet()
     parser.parse_to_json()
     json_data = parser.get_json()
-    parser.save_json_to_file("geest/resources/model.json")
+    parser.save_json_to_file("geoe3/resources/model.json")

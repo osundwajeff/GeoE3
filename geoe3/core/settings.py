@@ -126,7 +126,7 @@ def set_setting(key, value, qsettings=None, store_in_project=False):
     set_general_setting(full_key, value, qsettings)
 
     if store_in_project:
-        QgsProject.instance().writeEntry("geest", key, str(value))
+        QgsProject.instance().writeEntry("geoe3", key, str(value))
 
 
 def setting(
@@ -154,7 +154,7 @@ def setting(
         default = default_settings.get(key, None)
 
     if prefer_project_setting:
-        val, ok = QgsProject.instance().readEntry("geest", key)
+        val, ok = QgsProject.instance().readEntry("geoe3", key)
         if ok:
             return val
 
@@ -190,7 +190,7 @@ def export_setting(file_path, qsettings=None):
     if not qsettings:
         qsettings = QSettings()
 
-    qsettings.beginGroup("geest")
+    qsettings.beginGroup("geoe3")
     all_keys = qsettings.allKeys()
     qsettings.endGroup()
 
@@ -237,7 +237,7 @@ def import_setting(file_path, qsettings=None):
         qsettings = QSettings()
 
     # Clear the previous setting
-    qsettings.beginGroup("geest")
+    qsettings.beginGroup("geoe3")
     qsettings.remove("")
     qsettings.endGroup()
 

@@ -351,11 +351,11 @@ class TreePanel(QWidget):
             add_to_map(item)
         show_overlay = setting(key="show_overlay", default=False)
         if show_overlay:
-            QSettings().setValue("geest/overlay_label", item.data(0))
+            QSettings().setValue("geoe3/overlay_label", item.data(0))
         show_pie = setting(key="show_pie_overlay", default=False)
         if show_pie:
             # TODO - calculate the pie data
-            QSettings().setValue("geest/pie_data", item.data(0))
+            QSettings().setValue("geoe3/pie_data", item.data(0))
 
     def on_previous_button_clicked(self):
         """⚙️ On previous button clicked."""
@@ -1551,7 +1551,7 @@ class TreePanel(QWidget):
         gpkg_path = os.path.join(self.working_directory, "study_area", "study_area.gpkg")
         project = QgsProject.instance()
 
-        # Check if 'Geest' group exists, otherwise create it
+        # Check if 'GeoE3' group exists, otherwise create it
         root = project.layerTreeRoot()
         geoe3_group = root.findGroup("GeoE3 Study Area")
         if geoe3_group is None:

@@ -187,7 +187,7 @@ class WorkflowJob(QgsTask):
             import datetime
             from pathlib import Path
 
-            profile_dir = Path(QgsApplication.qgisSettingsDirPath()) / "geest" / "profiles"
+            profile_dir = Path(QgsApplication.qgisSettingsDirPath()) / "geoe3" / "profiles"
             profile_dir.mkdir(parents=True, exist_ok=True)
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             output_file = str(profile_dir / f"workflow_profile_{timestamp}.prof")  # Use .prof extension

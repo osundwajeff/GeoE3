@@ -201,7 +201,7 @@ class AcledImpactWorkflow(WorkflowBase):
 
         Args:
             layer (QgsVectorLayer): The input feature layer. This layer should be a point
-               layer with two columns: value and buffer_m representing the geest score for
+               layer with two columns: value and buffer_m representing the geoe3 score for
                the event and the distance to buffer in m.
 
         Returns:
@@ -293,7 +293,7 @@ class AcledImpactWorkflow(WorkflowBase):
 
         Logging:
         --------
-        Messages related to the status of the operation (success or failure) are logged using QgsMessageLog with the tag 'Geest'
+        Messages related to the status of the operation (success or failure) are logged using QgsMessageLog with the tag 'GeoE3'
         and the log level set to Qgis.Info.
 
         Raises:

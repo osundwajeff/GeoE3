@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Init for Geest."""
+"""Init for GeoE3."""
 # ruff: noqa: E402
 # flake8: noqa: E402
 # The sys.path modification below MUST happen before other imports
@@ -84,9 +84,9 @@ logging.basicConfig(
 )
 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 log_message("»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", force=True)
-log_message(f"Geest started at {date}", force=True)
+log_message(f"GeoE3 started at {date}", force=True)
 version = version()
-log_message(f"Geest Version: {version}")
+log_message(f"GeoE3 Version: {version}")
 log_message(f"Logging output to: {log_file_path}", force=True)
 log_message(f"log_path_env: {log_path_env}", force=True)
 log_message("»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", force=True)
@@ -227,7 +227,7 @@ class GeestPlugin:
         self.restore_geometry()
 
         # Check the dock area; default to right dock if not set
-        settings = QSettings("ESMAP", "Geest")
+        settings = QSettings("ESMAP", "GeoE3")
         dock_area = settings.value("GeestDock/area", Qt.RightDockWidgetArea, type=int)
 
         # Add the dock widget to the restored or default dock area
@@ -253,7 +253,7 @@ class GeestPlugin:
         # Handle debug mode and additional settings
         developer_mode = int(setting(key="developer_mode", default=0))
         if developer_mode:
-            debug_icon = QIcon(resources_path("resources", "geest-debug.svg"))
+            debug_icon = QIcon(resources_path("resources", "geoe3-debug.svg"))
             self.debug_action = QAction(debug_icon, "GEEST Debug Mode", self.iface.mainWindow())
             self.debug_action.triggered.connect(self.debug)
             self.iface.addToolBarIcon(self.debug_action)
@@ -523,7 +523,7 @@ for module_name in list(sys.modules.keys()):
         """
         Saves the geometry and dock area of GeestDock to QSettings.
         """
-        settings = QSettings("ESMAP", "Geest")
+        settings = QSettings("ESMAP", "GeoE3")
 
         if self.dock_widget:
             # Save geometry
@@ -537,7 +537,7 @@ for module_name in list(sys.modules.keys()):
         """
         Restores the geometry and dock area of GeestDock from QSettings.
         """
-        settings = QSettings("ESMAP", "Geest")
+        settings = QSettings("ESMAP", "GeoE3")
 
         if self.dock_widget:
             # Restore geometry
@@ -553,13 +553,13 @@ for module_name in list(sys.modules.keys()):
     def setup_profiler_actions(self):
         """Set up cProfiler actions for developer mode."""
         # Create profiler start/stop action
-        profile_icon = QIcon(resources_path("resources", "geest-start-profile.svg"))
+        profile_icon = QIcon(resources_path("resources", "geoe3-start-profile.svg"))
         self.profiler_action = QAction(profile_icon, "Start Profiling", self.iface.mainWindow())
         self.profiler_action.triggered.connect(self.toggle_profiler)
         self.iface.addToolBarIcon(self.profiler_action)
 
         # Create save profile results action (initially disabled)
-        save_icon = QIcon(resources_path("resources", "geest-save-profile.svg"))
+        save_icon = QIcon(resources_path("resources", "geoe3-save-profile.svg"))
         self.save_profile_action = QAction(save_icon, "Save Profile Results", self.iface.mainWindow())
         self.save_profile_action.triggered.connect(self.save_profile_results)
         self.save_profile_action.setEnabled(False)
@@ -575,7 +575,7 @@ for module_name in list(sys.modules.keys()):
             self.profiler.enable()
             self.is_profiling = True
             self.profiler_action.setText("Stop Profiling")
-            stop_icon = QIcon(resources_path("resources", "geest-stop-profile.svg"))
+            stop_icon = QIcon(resources_path("resources", "geoe3-stop-profile.svg"))
             self.profiler_action.setIcon(stop_icon)
             self.save_profile_action.setEnabled(False)
             log_message("🔍 cProfiler started", level=Qgis.Info)
@@ -630,7 +630,7 @@ for module_name in list(sys.modules.keys()):
                     with open(selected_file, "w") as f:
                         stats = pstats.Stats(self.profiler, stream=f)
                         stats.sort_stats("cumulative")
-                        stats.print_callers(lambda func: "geest" in func[0])
+                        stats.print_callers(lambda func: "geoe3" in func[0])
                         stats.print_stats()
                     message = f"Profile stats saved to {selected_file}"
 

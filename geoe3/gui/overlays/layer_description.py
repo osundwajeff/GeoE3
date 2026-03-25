@@ -15,7 +15,7 @@ from ...utilities import resources_path
 """
 An overlay item for the QGIS map canvas.
 
-It will show geest lablel on top of the map canvas,
+It will show geoe3 lablel on top of the map canvas,
 showing which layer is active etc.
 """
 
@@ -44,7 +44,7 @@ class LayerDescriptionItem(QgsMapCanvasItem):
         if not show_overlay:
             return
         # Get the label text from QSettings
-        label_text = QSettings().value("geest/overlay_label", "Geest Overlay")
+        label_text = QSettings().value("geoe3/overlay_label", "GeoE3 Overlay")
         painter.setPen(QColor(0, 0, 0))
         font = QFont("Arial", 12, QFont.Bold)
         painter.setFont(font)
@@ -57,7 +57,7 @@ class LayerDescriptionItem(QgsMapCanvasItem):
         text_height = font_metrics.height()
         padding = 10  # Add some padding
 
-        # Load geest logo as SVG
+        # Load geoe3 logo as SVG
         icon = QIcon(resources_path("resources", "geoe3-main.svg"))
         logo_x = 0
         logo_y = 0

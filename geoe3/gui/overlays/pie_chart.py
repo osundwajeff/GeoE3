@@ -37,7 +37,7 @@ class PieChartItem(QgsMapCanvasItem):
         """
         super().__init__(canvas)
         self.setZValue(1000)  # Draw on top
-        # self.counts = QSettings().value("geest/pie_data", None)
+        # self.counts = QSettings().value("geoe3/pie_data", None)
         self.counts = [10, 20, 30, 40, 50, 60]
         labels = ["0–0.5", "0.5–1.5", "1.5–2.5", "2.5–3.5", "3.5–4.5", "4.5–5.0"]
         self.labels = labels or [str(i) for i in range(len(self.counts))]

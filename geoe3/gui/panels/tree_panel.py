@@ -56,7 +56,7 @@ from geoe3.core.algorithms import (
     SubnationalAggregationProcessingTask,
     WEEByPopulationScoreProcessingTask,
 )
-from geoe3.core.reports import AnalysisReport, StudyAreaReport
+from geoe3.core.reports import StudyAreaReport
 from geoe3.core.tasks import AnalysisReportTask
 from geoe3.core.settings import set_setting, setting
 from geoe3.core.utilities import add_to_map, validate_network_layer
@@ -433,8 +433,7 @@ class TreePanel(QWidget):
                         f"Failed to delete {file_path}. Reason: {e}",
                         level=Qgis.Critical,
                     )
-        # Also remove the GeoE3 layer group in the QGIS Layers List
-        root =QgsProject.instance().layerTreeRoot()
+        root = QgsProject.instance().layerTreeRoot()
         for child in root.children():
             if child.name() == "GeoE3":
                 root.removeChildNode(child)

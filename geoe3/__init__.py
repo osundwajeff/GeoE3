@@ -62,7 +62,7 @@ from qgis.PyQt.QtWidgets import (
 
 # Import your plugin components here
 from .core import setting
-from .gui import GeestDock, GeestOptionsFactory
+from .gui import GeoE3Dock, GeoE3OptionsFactory
 from .gui.overlays import LayerDescriptionItem, PieChartItem
 from .utilities import log_message, resources_path, version
 
@@ -71,11 +71,11 @@ from .utilities import log_message, resources_path, version
 temp_dir = tempfile.gettempdir()
 # Use a timestamp to ensure unique log file names
 datestamp = datetime.datetime.now().strftime("%Y%m%d")
-log_path_env = os.getenv("GEEST_LOG", 0)
+log_path_env = os.getenv("GEOE3_LOG") or os.getenv("GEEST_LOG", 0)
 if log_path_env:
     log_file_path = log_path_env
 else:
-    log_file_path = os.path.join(temp_dir, f"geest_logfile_{datestamp}.log")
+    log_file_path = os.path.join(temp_dir, f"geoe3_logfile_{datestamp}.log")
 logging.basicConfig(
     filename=log_file_path,
     filemode="a",  # Append mode
@@ -102,10 +102,10 @@ def classFactory(iface):  # pylint: disable=missing-function-docstring
     Returns:
         The result of the operation.
     """
-    return GeestPlugin(iface)
+    return GeoE3Plugin(iface)
 
 
-class GeestPlugin:
+class GeoE3Plugin:
     """
     GEOE3 2 plugin interface.
 
@@ -149,25 +149,26 @@ class GeestPlugin:
 
     def get_test_directory(self):
         """
-        Get the test directory path from GEEST_TEST_DIR environment variable.
+        Get the test directory path from GEOE3_TEST_DIR environment variable.
 
-        This method exclusively uses the GEEST_TEST_DIR environment variable
-        (set by scripts/start_qgis.sh) to locate the test directory.
+        This method uses the GEOE3_TEST_DIR environment variable
+        (with fallback to GEEST_TEST_DIR for backward compatibility).
+        Set by scripts/start_qgis.sh or scripts/start_qgis_ltr.sh to point to the project's test directory.
 
         Returns:
             str: Path to the test directory from environment variable
 
         Raises:
-            ValueError: If GEEST_TEST_DIR is not set or points to invalid directory
+            ValueError: If GEOE3_TEST_DIR (or GEEST_TEST_DIR) is not set or points to invalid directory
         """
         import sys
 
-        # Get test directory from environment variable
-        env_test_dir = os.getenv("GEEST_TEST_DIR")
+        # Get test directory from environment variable (with fallback for backward compatibility)
+        env_test_dir = os.getenv("GEOE3_TEST_DIR") or os.getenv("GEEST_TEST_DIR")
 
         if not env_test_dir:
             raise ValueError(
-                "GEEST_TEST_DIR environment variable is not set. "
+                "GEOE3_TEST_DIR environment variable is not set. "
                 "Please run QGIS using scripts/start_qgis.sh or scripts/start_qgis_ltr.sh"
             )
 
@@ -175,7 +176,7 @@ class GeestPlugin:
             raise ValueError(f"Test directory does not exist: {env_test_dir}")
 
         if not os.path.isdir(env_test_dir):
-            raise ValueError(f"GEEST_TEST_DIR is not a directory: {env_test_dir}")
+            raise ValueError(f"GEOE3_TEST_DIR is not a directory: {env_test_dir}")
 
         # Verify it contains test files
         try:
@@ -205,12 +206,12 @@ class GeestPlugin:
         self.label_overlay = None  # for rendering info over the canvas
         self.pie_overlay = None  # for rendering pie chart over the canvas
         # Create the dock widget
-        self.dock_widget = GeestDock(
+        self.dock_widget = GeoE3Dock(
             parent=self.iface.mainWindow(),
             json_file=resources_path("resources", "model.json"),
         )
         # Dont remove this, needed for geometry restore....
-        self.dock_widget.setObjectName("GeestDockWidget")  # Set a unique object name
+        self.dock_widget.setObjectName("GeoE3DockWidget")  # Set a unique object name
         self.dock_widget.setFeatures(
             QDockWidget.DockWidgetClosable  # noqa: W503
             | QDockWidget.DockWidgetMovable  # noqa: W503
@@ -228,7 +229,7 @@ class GeestPlugin:
 
         # Check the dock area; default to right dock if not set
         settings = QSettings("ESMAP", "GeoE3")
-        dock_area = settings.value("GeestDock/area", Qt.RightDockWidgetArea, type=int)
+        dock_area = settings.value("GeoE3Dock/area", Qt.RightDockWidgetArea, type=int)
 
         # Add the dock widget to the restored or default dock area
         self.iface.addDockWidget(dock_area, self.dock_widget)
@@ -275,11 +276,11 @@ class GeestPlugin:
             self.single_test_action = None
             self.debug_action = None
 
-        debug_env = int(os.getenv("GEEST_DEBUG", 0))
+        debug_env = int(os.getenv("GEOE3_DEBUG") or os.getenv("GEEST_DEBUG", 0))
         if debug_env:
             self.debug()
 
-        self.options_factory = GeestOptionsFactory()
+        self.options_factory = GeoE3OptionsFactory()
         self.iface.registerOptionsWidgetFactory(self.options_factory)
         self.setup_map_canvas_items()
 
@@ -332,7 +333,7 @@ for module_name in list(sys.modules.keys()):
     def setup_map_canvas_items(self):
         """⚙️ Setup map canvas items."""
         self.label_overlay = LayerDescriptionItem(self.iface.mapCanvas())
-        experimental_features = int(os.getenv("GEEST_EXPERIMENTAL", 0))
+        experimental_features = int(os.getenv("GEOE3_EXPERIMENTAL") or os.getenv("GEEST_EXPERIMENTAL", 0))
         if experimental_features:
             self.pie_overlay = PieChartItem(self.iface.mapCanvas())
 
@@ -521,32 +522,32 @@ for module_name in list(sys.modules.keys()):
 
     def save_geometry(self) -> None:
         """
-        Saves the geometry and dock area of GeestDock to QSettings.
+        Saves the geometry and dock area of GeoE3Dock to QSettings.
         """
         settings = QSettings("ESMAP", "GeoE3")
 
         if self.dock_widget:
             # Save geometry
-            settings.setValue("GeestDock/geometry", self.dock_widget.saveGeometry())
+            settings.setValue("GeoE3Dock/geometry", self.dock_widget.saveGeometry())
 
             # Save dock area (left or right)
             dock_area = self.iface.mainWindow().dockWidgetArea(self.dock_widget)
-            settings.setValue("GeestDock/area", dock_area)
+            settings.setValue("GeoE3Dock/area", dock_area)
 
     def restore_geometry(self) -> None:
         """
-        Restores the geometry and dock area of GeestDock from QSettings.
+        Restores the geometry and dock area of GeoE3Dock from QSettings.
         """
         settings = QSettings("ESMAP", "GeoE3")
 
         if self.dock_widget:
-            # Restore geometry
-            geometry = settings.value("GeestDock/geometry")
+            # Restore geometry (with fallback to old GeestDock key for backward compatibility)
+            geometry = settings.value("GeoE3Dock/geometry") or settings.value("GeestDock/geometry")
             if geometry:
                 self.dock_widget.restoreGeometry(geometry)
 
-            # Restore dock area (left or right)
-            dock_area = settings.value("GeestDock/area", type=int)
+            # Restore dock area (with fallback to old GeestDock key for backward compatibility)
+            dock_area = settings.value("GeoE3Dock/area", type=int) or settings.value("GeestDock/area", type=int)
             if dock_area is not None:
                 self.iface.addDockWidget(dock_area, self.dock_widget)
 

@@ -16,7 +16,7 @@ from qgis.PyQt.QtCore import pyqtSignal
 from qgis.core import Qgis, QgsMessageLog, QgsTask
 
 
-class GEESTTask(QgsTask):
+class GeoE3Task(QgsTask):
     """
     Custom task for running GEOE3 plugin operations as a background job.
     """

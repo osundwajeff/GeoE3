@@ -72,13 +72,13 @@ class CsvDataSourceWidget(BaseDataSourceWidget):
         Also validates the selected file to check for required columns.
         """
         try:
-            last_dir = os.getenv("GEEST_LAST_CSV_DIR", "")
+            last_dir = os.getenv("GEOE3_LAST_CSV_DIR") or os.getenv("GEEST_LAST_CSV_DIR", "")
 
             file_path, _ = QFileDialog.getOpenFileName(self, "Select CSV File", last_dir, "CSV Files (*.csv)")
             if file_path:
                 self.csv_file_line_edit.setText(file_path)
                 self.validate_csv_file(file_path)
-                os.environ["GEEST_LAST_CSV_DIR"] = os.path.dirname(file_path)
+                os.environ["GEOE3_LAST_CSV_DIR"] = os.path.dirname(file_path)
 
         except Exception as e:
             log_message(f"Error selecting CSV file: {e}", level=Qgis.Critical)

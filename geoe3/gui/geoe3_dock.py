@@ -43,7 +43,7 @@ TREE_PANEL = 7
 HELP_PANEL = 8
 
 
-class GeestDock(QDockWidget):
+class GeoE3Dock(QDockWidget):
     """🎯 GeoE3 Dock.
 
     Attributes:
@@ -55,7 +55,7 @@ class GeestDock(QDockWidget):
 
     def __init__(self, parent: Optional[QWidget] = None, json_file: Optional[str] = None) -> None:
         """
-        Initializes the GeestDock with a parent and an optional JSON file.
+        Initializes the GeoE3Dock with a parent and an optional JSON file.
         Sets up the main widget and stacked panels.
 
         Args:
@@ -309,11 +309,11 @@ class GeestDock(QDockWidget):
 
             # Connect panel change event if custom logic is needed when switching panels
             self.stacked_widget.currentChanged.connect(self.on_panel_changed)
-            log_message("GeestDock initialized successfully.")
+            log_message("GeoE3Dock initialized successfully.")
 
         except Exception as e:
             log_message(
-                f"Error initializing GeestDock: {str(e)}",
+                f"Error initializing GeoE3Dock: {str(e)}",
                 tag="GeoE3",
                 level=Qgis.Critical,
             )
@@ -358,16 +358,16 @@ class GeestDock(QDockWidget):
         log_message(f"QGIS project changed to {project_path}")
         if project_path:
             checksum = hash(project_path)
-            geest_project = setting(str(checksum), None, prefer_project_setting=True)
+            geoe3_project = setting(str(checksum), None, prefer_project_setting=True)
             log_message(
-                f"GeoE3 project path : {geest_project} ({checksum})",  # noqa E225
+                f"GeoE3 project path : {geoe3_project} ({checksum})",  # noqa E225
                 tag="GeoE3",  # noqa E225
                 level=Qgis.Info,  # noqa E225
             )
-            if geest_project and os.path.exists(os.path.join(geest_project, "model.json")):
-                self.tree_widget.set_working_directory(geest_project)
+            if geoe3_project and os.path.exists(os.path.join(geoe3_project, "model.json")):
+                self.tree_widget.set_working_directory(geoe3_project)
                 self.stacked_widget.setCurrentIndex(TREE_PANEL)  # Tree tab
-                self.road_network_widget.set_working_directory(geest_project)
+                self.road_network_widget.set_working_directory(geoe3_project)
                 saved_path = self.tree_widget.road_network_layer_path()
                 if saved_path:
                     log_message(f"Restoring road network layer from model: {saved_path}")

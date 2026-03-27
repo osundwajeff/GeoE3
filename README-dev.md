@@ -132,11 +132,12 @@ The `admin.py` script provides various commands for managing the plugin, such as
 
 ### Environment Variables
 
-The test system requires the following environment variable:
+The test system requires the following environment variables:
 
-- **`GEEST_TEST_DIR`**: **Required** - Specifies the path to the test directory. This is automatically set by `scripts/start_qgis.sh` and `scripts/start_qgis_ltr.sh` to point to the project's test directory.
+- **`GEOE3_TEST_DIR`**: **Recommended** - Specifies the path to the test directory. This is automatically set by `scripts/start_qgis.sh` and `scripts/start_qgis_ltr.sh` to point to the project's test directory.
+- **`GEEST_TEST_DIR`**: **Fallback** - Kept for backward compatibility.
 
-**Important**: The plugin will fail to run tests if this environment variable is not set. Always use the provided startup scripts when developing.
+**Important**: The plugin will fail to run tests if one of these environment variables is not set. Always use the provided startup scripts when developing.
 
 ### Steps
 
@@ -163,7 +164,7 @@ The test system requires the following environment variable:
 
 4. **Run Tests from QGIS Plugin Interface**:
    - Use the "Run Tests" or "Run Single Test" buttons in developer mode
-   - Tests will automatically use the `GEEST_TEST_DIR` environment variable
+   - Tests will automatically use the `GEOE3_TEST_DIR` (or `GEEST_TEST_DIR` fallback) environment variable
 
 ---
 

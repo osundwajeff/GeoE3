@@ -273,7 +273,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
                 json.dump(model, f, indent=2)
 
             # Create the processor instance and process the features
-            debug_env = int(os.getenv("GEEST_DEBUG", 0))
+            debug_env = int(os.getenv("GEOE3_DEBUG") or os.getenv("GEEST_DEBUG", 0))
             feedback = QgsFeedback()  # Used to cancel tasks and measure subtask progress
             try:
 

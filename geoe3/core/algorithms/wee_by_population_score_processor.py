@@ -145,15 +145,15 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
 
     def validate_rasters(
         self,
-        geest_raster: QgsRasterLayer,
-        pop_raster: QgsRasterLayer,
+        geoe3_raster: QgisRasterLayer,
+        pop_raster: QgisRasterLayer,
         dimension_check=False,
     ) -> None:
         """
         Checks if GEOE3 and POP rasters have the same origin, dimensions, and pixel sizes.
 
         Args:
-            geest_raster (QgsRasterLayer): The GEOE3 raster layer.
+            geoe3_raster (QgsRasterLayer): The GEOE3 raster layer.
             pop_raster (QgsRasterLayer): The population raster layer.
             dimension_check (bool): Flag to check if the rasters have the same dimensions. Defaults to False.
 
@@ -161,26 +161,26 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
             ValueError: If one or both input rasters are invalid, or if rasters don't share the same extent or dimensions when dimension_check is True.
         """
         log_message("Validating input rasters")
-        log_message(f"GEOE3 Raster: {geest_raster.source()}")
+        log_message(f"GEOE3 Raster: {geoe3_raster.source()}")
         log_message(f"POP Raster  : {pop_raster.source()}")  # noqa E203
 
-        if not geest_raster.isValid() or not pop_raster.isValid():
+        if not geoe3_raster.isValid() or not pop_raster.isValid():
             raise ValueError("One or both input rasters are invalid.")
 
         if not dimension_check:
             return
 
-        geest_provider = geest_raster.dataProvider()
+        geoe3_provider = geoe3_raster.dataProvider()
         pop_provider = pop_raster.dataProvider()
 
-        geest_extent = geest_provider.extent()
+        geoe3_extent = geoe3_provider.extent()
         pop_extent = pop_provider.extent()
-        if geest_extent != pop_extent:
+        if geoe3_extent != pop_extent:
             raise ValueError("Input rasters do not share the same extent.")
 
-        geest_size = geest_provider.xSize(), geest_provider.ySize()
+        geoe3_size = geoe3_provider.xSize(), geoe3_provider.ySize()
         pop_size = pop_provider.xSize(), pop_provider.ySize()
-        if geest_size != pop_size:
+        if geoe3_size != pop_size:
             raise ValueError("Input rasters do not share the same dimensions.")
 
         log_message("Validation successful: rasters are aligned.")

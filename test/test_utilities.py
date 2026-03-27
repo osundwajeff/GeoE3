@@ -16,7 +16,7 @@ from qgis.core import Qgis
 from geoe3.utilities import (
     calculate_utm_zone,
     calculate_utm_zone_from_layer,
-    geest_layer_ids,
+    geoe3_layer_ids,
     get_free_memory_mb,
     get_ui_class,
     is_qgis_dark_theme_active,
@@ -230,31 +230,16 @@ class TestUtilities(unittest.TestCase):
     @unittest.skip("TODO Check and fix")
     @patch("qgis.core.QgsLayerTreeGroup")
     @patch("qgis.core.QgsProject")
-    def test_geest_layer_ids(self, mock_project, mock_layer_tree_group):
-        """Test geest_layer_ids function."""
-        # Mock layer tree structure
-        mock_root = MagicMock()
-        mock_project.instance.return_value.layerTreeRoot.return_value = mock_root
+    def test_geoe3_layer_ids(self, mock_project, mock_layer_tree_group):
+        """Test geoe3_layer_ids function."""
+        self.assertIsNone(geoe3_layer_ids())
 
-        # Test when GeoE3 group doesn't exist
-        mock_root.findGroup.return_value = None
-        self.assertIsNone(geest_layer_ids())
+        mock_geoe3_group = MagicMock()
+        mock_root.findGroup.return_value = mock_geoe3_group
 
-        # Test when GeoE3 group exists with layers
-        mock_geest_group = MagicMock()
-        mock_root.findGroup.return_value = mock_geest_group
+        mock_geoe3_group.children.return_value = [mock_layer, mock_subgroup]
 
-        # Create mock layer and subgroup
-        mock_layer = MagicMock()
-        mock_layer.layerId.return_value = "layer1"
-        mock_subgroup = MagicMock()
-        mock_sublayer = MagicMock()
-        mock_sublayer.layerId.return_value = "layer2"
-        mock_subgroup.children.return_value = [mock_sublayer]
-        mock_geest_group.children.return_value = [mock_layer, mock_subgroup]
-
-        # Check the result
-        result = geest_layer_ids()
+        result = geoe3_layer_ids()
         self.assertIsInstance(result, set)
         self.assertEqual(len(result), 2)
         self.assertIn("layer1", result)

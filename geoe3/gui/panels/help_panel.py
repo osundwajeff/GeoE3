@@ -45,7 +45,7 @@ class HelpPanel(QWidget):
             # If QWebEngineView is available, create it and load the URL
             self.web_view = QWebEngineView()
             self.web_view.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-            self.web_view.setUrl(QUrl("https://worldbank.github.io/GEEST/README.html"))
+            self.web_view.setUrl(QUrl("https://worldbank.github.io/GEOE3/README.html"))
             self.layout.addWidget(self.web_view)
         else:
             # Center the content both vertically and horizontally when QWebEngineView is unavailable
@@ -79,4 +79,4 @@ class HelpPanel(QWidget):
     def open_in_browser(self):
         """⚙️ Open in browser."""
         # Open the URL in the default web browser
-        QDesktopServices.openUrl(QUrl("https://worldbank.github.io/GEEST/README.html"))
+        QDesktopServices.openUrl(QUrl("https://worldbank.github.io/GEOE3/README.html"))

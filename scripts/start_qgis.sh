@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "🪛 Running QGIS with the GEEST profile:"
+echo "🪛 Running QGIS with the GEOE3 profile:"
 echo "--------------------------------"
 echo "Do you want to enable debug mode?"
 choice=$(gum choose "🪲 Yes" "🐞 No")

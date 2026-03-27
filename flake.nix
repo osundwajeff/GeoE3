@@ -15,7 +15,7 @@
     }:
     let
       system = "x86_64-linux";
-      profileName = "GEEST";
+      profileName = "GEOE3";
       pkgs = import nixpkgs {
         inherit system;
         config = {

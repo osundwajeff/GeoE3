@@ -199,7 +199,7 @@
           <property name="text">
            <string>This plugin was built with support from the Canada Clean Energy and Forest Climate Facility (CCEFCF) and the Global Development Fund (GDF), by the Geospatial Team in the Development Economics Data Group (DECDG).
 
-The project is open-source and you can access the code here: https://github.com/worldbank/GEEST</string>
+The project is open-source and you can access the code here: https://github.com/worldbank/GEOE3</string>
           </property>
          <property name="textFormat">
           <enum>Qt::MarkdownText</enum>

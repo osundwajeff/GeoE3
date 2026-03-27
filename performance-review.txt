@@ -1,4 +1,4 @@
-# GEEST Study Area Creation - Performance Review
+# GEOE3 Study Area Creation - Performance Review
 # Generated: 2026-01-23
 # Focus: Study Area Processing Workflows
 

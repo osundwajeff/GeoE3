@@ -307,7 +307,7 @@ class GeestPlugin:
                         # for member in widget_members:
                         #    log_message(f'Member: {member}, Type: {type(getattr(widget, member))}')
                         shell = widget.console.shell
-                        test_dir = "/home/timlinux/dev/python/GEEST/test"
+                        test_dir = "/home/timlinux/dev/python/GEOE3/test"
                         shell.runCommand("")
                         shell.runCommand("import unittest")
                         shell.runCommand("test_loader = unittest.TestLoader()")

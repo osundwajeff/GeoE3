@@ -502,7 +502,7 @@ class BaseReport:
          Forest Climate Facility (CCEFCF)</strong> and the <strong>Global Development Fund (GDF)</strong>,
          by the Geospatial Team in the <strong>Development Economics Data Group (DECDG)</strong>.
          This project is open source; you can download the code at
-         <a href="https://github.com/worldbank/GEEST">https://github.com/worldbank/GEEST</a>.</p>
+         <a href="https://github.com/worldbank/GEOE3">https://github.com/worldbank/GEOE3</a>.</p>
 """
         credits_text = """Developed by <a href="https://kartoza.com">Kartoza</a> for and
         with The World Bank."""

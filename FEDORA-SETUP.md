@@ -1,6 +1,6 @@
-# GEEST Development Setup for Fedora (Non-Nix)
+# GEOE3 Development Setup for Fedora (Non-Nix)
 
-This guide provides step-by-step instructions for setting up the GEEST development environment on Fedora Linux using Miniconda, without requiring Nix.
+This guide provides step-by-step instructions for setting up the GEOE3 development environment on Fedora Linux using Miniconda, without requiring Nix.
 
 ## Prerequisites
 
@@ -15,8 +15,8 @@ We provide an automated setup script that installs all dependencies:
 
 ```bash
 # Clone the repository (if not already done)
-git clone https://github.com/worldbank/GEEST.git
-cd GEEST
+git clone https://github.com/worldbank/GEOE3.git
+cd GEOE3
 
 # Run the automated setup script
 ./scripts/setup-fedora-conda.sh
@@ -83,13 +83,13 @@ conda create -n geoe3 python=3.10 -y
 conda activate geoe3
 ```
 
-**Tip:** Add conda activation to your workflow or use `conda activate geoe3` whenever working on GEEST.
+**Tip:** Add conda activation to your workflow or use `conda activate geoe3` whenever working on GEOE3.
 
 ### Step 4: Install Python Dependencies
 
 ```bash
 # Navigate to project root
-cd /path/to/GEEST
+cd /path/to/GEOE3
 
 # Install development dependencies
 pip install -r requirements-dev.txt
@@ -209,11 +209,11 @@ The `.pre-commit-config.yaml` includes these hooks:
 
 ### Activate Environment
 
-Every time you start working on GEEST:
+Every time you start working on GEOE3:
 
 ```bash
 conda activate geoe3
-cd /path/to/GEEST
+cd /path/to/GEOE3
 ```
 
 ### Make Changes and Commit
@@ -340,7 +340,7 @@ python admin.py install
 - [Pre-commit Documentation](https://pre-commit.com/)
 - [Black Code Formatter](https://black.readthedocs.io/)
 - [Conda User Guide](https://docs.conda.io/projects/conda/en/latest/user-guide/)
-- [GEEST Contributing Guide](CONTRIBUTING.md)
+- [GEOE3 Contributing Guide](CONTRIBUTING.md)
 - [Pre-commit Setup Guide](PRE-COMMIT-README.md)
 
 ---
@@ -366,7 +366,7 @@ python admin.py install
 If you encounter problems not covered here:
 
 1. Check the [CONTRIBUTING.md](CONTRIBUTING.md) guide
-2. Open an issue on GitHub: https://github.com/worldbank/GEEST/issues
+2. Open an issue on GitHub: https://github.com/worldbank/GEOE3/issues
 3. Review the pre-commit logs: `.git/hooks/pre-commit`
 
 ---

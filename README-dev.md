@@ -1,6 +1,6 @@
-# Developer Guide for GEEST 🚀
+# Developer Guide for GEOE3 🚀
 
-Welcome to the GEEST Developer Guide! This document is your one-stop resource for contributing to the project. Whether you're setting up your environment, debugging, or preparing a release, we've got you covered. Let's dive in! 🛠️
+Welcome to the GEOE3 Developer Guide! This document is your one-stop resource for contributing to the project. Whether you're setting up your environment, debugging, or preparing a release, we've got you covered. Let's dive in! 🛠️
 
 ---
 
@@ -26,17 +26,17 @@ In this section, you'll learn how to clone the repository and prepare it for dev
 
 ### Steps
 
-1. **Fork the Repository**: Start by forking the GEEST repository on GitHub.
+1. **Fork the Repository**: Start by forking the GEOE3 repository on GitHub.
 2. **Clone Your Fork**:
 
    ```bash
-   git clone https://github.com/your-username/GEEST.git
+   git clone https://github.com/your-username/GEOE3.git
    ```
 
 3. **Set Up the Plugin Path**:
    - Open QGIS.
    - Navigate to Plugins > Manage and Install Plugins > Settings > Plugin Paths.
-   - Add the path to your local GEEST folder.
+   - Add the path to your local GEOE3 folder.
 
 ---
 
@@ -184,7 +184,7 @@ The test system requires the following environment variable:
 
 ## Coding Standards 🧑‍💻
 
-To ensure consistency and maintainability, please follow the coding standards outlined in the [CODING.md](CODING.md) file. This document provides guidelines on formatting, naming conventions, and best practices for contributing to the GEEST project.
+To ensure consistency and maintainability, please follow the coding standards outlined in the [CODING.md](CODING.md) file. This document provides guidelines on formatting, naming conventions, and best practices for contributing to the GEOE3 project.
 
 ---
 

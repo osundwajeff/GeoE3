@@ -1,6 +1,6 @@
-# GEEST Development Environment Setup
+# GEOE3 Development Environment Setup
 
-This guide provides comprehensive instructions for setting up your development environment for the GEEST project, including pre-commit hooks, testing, and code quality tools.
+This guide provides comprehensive instructions for setting up your development environment for the GEOE3 project, including pre-commit hooks, testing, and code quality tools.
 
 ## Prerequisites
 
@@ -14,8 +14,8 @@ This guide provides comprehensive instructions for setting up your development e
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/worldbank/GEEST.git
-cd GEEST
+git clone https://github.com/worldbank/GEOE3.git
+cd GEOE3
 ```
 
 ### 2. Set Up Python Environment

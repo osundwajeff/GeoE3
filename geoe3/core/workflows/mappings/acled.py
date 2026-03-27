@@ -10,7 +10,7 @@ by the configuration widget without importing the whole workflow.
 """
 
 # Define scoring categories based on event_type
-# See https://github.com/worldbank/GEEST/issues/71
+# See https://github.com/worldbank/GEOE3/issues/71
 # For where these lookups are specified
 
 event_scores = {

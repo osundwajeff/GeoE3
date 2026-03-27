@@ -1,7 +1,7 @@
 
-# GEEST Coding Guide
+# GEOE3 Coding Guide
 
-This guide outlines coding practices for developing Python code in the GEEST project, including adherence to Python naming conventions, formatting styles, type declarations, and logging mechanisms.
+This guide outlines coding practices for developing Python code in the GEOE3 project, including adherence to Python naming conventions, formatting styles, type declarations, and logging mechanisms.
 
 ## General Guidelines
 
@@ -211,4 +211,4 @@ geom.transform(transform)
 - **PyQt5**: Follow PyQt5's conventions for widget naming and handling.
 - **Docstrings and Comments**: Use meaningful docstrings and comments to explain the code.
 
-Following these guidelines ensures that code within the GEEST project is clear, consistent, and maintainable.
+Following these guidelines ensures that code within the GEOE3 project is clear, consistent, and maintainable.

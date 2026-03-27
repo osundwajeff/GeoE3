@@ -550,7 +550,7 @@ class RoadNetworkPanel(FORM_CLASS, QWidget):
                 os.remove(network_layer_path)
 
         # Create the processor instance and process the features
-        debug_env = int(os.getenv("GEEST_DEBUG", 0))
+        debug_env = int(os.getenv("GEOE3_DEBUG") or os.getenv("GEEST_DEBUG", 0))
         feedback = QgsFeedback()  # Used to cancel tasks and measure subtask progress
         try:
             log_message("Creating OSM Active Transport Downloader Task")

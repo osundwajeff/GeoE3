@@ -312,7 +312,7 @@ def log_layer_count() -> None:
 
     # Also write to a log file in the system temp directory
     tmp_dir = tempfile.gettempdir()
-    log_file_path = os.path.join(tmp_dir, "geest_layer_count_log.txt")
+    log_file_path = os.path.join(tmp_dir, "geoe3_layer_count_log.txt")
     with open(log_file_path, "a") as log_file:
         log_file.write(log_entry)
 
@@ -419,14 +419,14 @@ def log_message(message: str, level: int = Qgis.Info, tag: str = "GeoE3", force:
         logging.debug(full_message)
 
 
-def geest_layer_ids():
+def geoe3_layer_ids():
     """Get a list of the layer ids in the GeoE3 group.
 
     This is useful for filtering layers in the layer combo boxes.
 
     e.g.:
 
-    layer_ids = geest_layer_ids()
+    layer_ids = geoe3_layer_ids()
     def custom_filter(layer):
         return layer.id() not in layer_ids
     map_layer_combo.setFilters(QgsMapLayerProxyModel.CustomLayerFilter)
@@ -461,9 +461,9 @@ def geest_layer_ids():
                 layer_ids.add(child.layerId())
         return layer_ids
 
-    geest_layer_ids = collect_layer_ids(geoe3_group)
+    geoe3_layer_ids = collect_layer_ids(geoe3_group)
 
-    return geest_layer_ids
+    return geoe3_layer_ids
 
 
 def is_qgis_dark_theme_active() -> bool:

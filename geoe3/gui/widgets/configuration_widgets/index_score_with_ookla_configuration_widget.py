@@ -39,7 +39,7 @@ class IndexScoreWithOOKLAConfigurationWidget(BaseConfigurationWidget):
         """Opens the GeoE3 settings dialog at the Ookla settings section."""
         try:
             # Open QGIS options dialog with GeoE3 settings page
-            iface.showOptionsDialog(currentPage="mOptionsPage_Geest")
+            iface.showOptionsDialog(currentPage="mOptionsPage_geoe3")
         except Exception as e:
             log_message(f"Error opening Ookla settings: {e}", level=Qgis.Critical)
 

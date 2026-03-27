@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # setup-fedora-conda.sh
 #
-# Setup script for GEEST development environment on Fedora with Miniconda
+# Setup script for GEOE3 development environment on Fedora with Miniconda
 # This script installs all dependencies needed for pre-commit hooks
 #
 # Prerequisites: Miniconda installed with 'geoe3' conda environment
@@ -210,7 +210,7 @@ configure_nixfmt_skip() {
     print_header "Configuring nixfmt Skip"
 
     local BASHRC="${HOME}/.bashrc"
-    local SKIP_LINE="export SKIP=nixfmt  # Skip nixfmt in pre-commit (added by GEEST setup)"
+    local SKIP_LINE="export SKIP=nixfmt  # Skip nixfmt in pre-commit (added by GEOE3 setup)"
 
     if grep -q "export SKIP=nixfmt" "${BASHRC}" 2>/dev/null; then
         print_success "SKIP=nixfmt already configured in ~/.bashrc"
@@ -218,7 +218,7 @@ configure_nixfmt_skip() {
         print_info "Adding 'export SKIP=nixfmt' to ~/.bashrc..."
         {
             echo ""
-            echo "# GEEST development - skip nixfmt hook (Nix-specific)"
+            echo "# GEOE3 development - skip nixfmt hook (Nix-specific)"
             echo "${SKIP_LINE}"
         } >> "${BASHRC}"
         print_success "Added SKIP=nixfmt to ~/.bashrc"
@@ -306,9 +306,9 @@ test_precommit() {
 
 # Main execution
 main() {
-    print_header "GEEST Fedora Development Environment Setup"
+    print_header "GEOE3 Fedora Development Environment Setup"
     echo ""
-    print_info "This script sets up the GEEST development environment on Fedora"
+    print_info "This script sets up the GEOE3 development environment on Fedora"
     print_info "using Miniconda with the 'geoe3' conda environment"
     echo ""
 

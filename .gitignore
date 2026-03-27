@@ -67,7 +67,7 @@ data
 app.py
 /geoe3.zip
 .~lock.*
-/.idea/GEEST-main.iml
+/.idea/GEOE3-main.iml
 /.idea/misc.xml
 /.idea/modules.xml
 /.idea/inspectionProfiles/profiles_settings.xml

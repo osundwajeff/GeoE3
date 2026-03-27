@@ -459,7 +459,7 @@ def _get_existing_releases(
     Returns:
         List of github releases.
     """
-    base_url = "https://api.github.com/repos/" "worldbank/GEEST/releases"
+    base_url = "https://api.github.com/repos/" "worldbank/GEOE3/releases"
     response = httpx.get(base_url)
     result = []
     if response.status_code == 200:

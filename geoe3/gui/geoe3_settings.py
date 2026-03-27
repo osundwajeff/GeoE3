@@ -18,10 +18,10 @@ from geoe3.core.constants import APPLICATION_NAME
 from geoe3.core.settings import set_setting, setting
 from geoe3.utilities import get_ui_class, log_message, resources_path
 
-FORM_CLASS = get_ui_class("geest_settings_base.ui")
+FORM_CLASS = get_ui_class("geoe3_settings_base.ui")
 
 
-class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
+class GeoE3Settings(FORM_CLASS, QgsOptionsPageWidget):
     """Dialog implementation class GeoE3 class."""
 
     def __init__(self, parent=None):
@@ -76,8 +76,8 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
 
         show_pie_overlay = setting(key="show_pie_overlay", default=False)
         self.show_pie_overlay.setChecked(bool(show_pie_overlay))
-        experimental_features = int(os.getenv("GEEST_EXPERIMENTAL", 0))
-        log_message(f"GEEST_EXPERIMENTAL environment variable is set to: {experimental_features}")
+        experimental_features = int(os.getenv("GEOE3_EXPERIMENTAL") or os.getenv("GEEST_EXPERIMENTAL", 0))
+        log_message(f"GEOE3_EXPERIMENTAL environment variable is set to: {experimental_features}")
         self.show_pie_overlay.hide()
 
         if experimental_features:
@@ -162,7 +162,7 @@ class GeestSettings(FORM_CLASS, QgsOptionsPageWidget):
             self.ookla_cache_dir.setText(directory)
 
 
-class GeestOptionsFactory(QgsOptionsWidgetFactory):
+class GeoE3OptionsFactory(QgsOptionsWidgetFactory):
     """
     Factory class for GeoE3 options widget
     """
@@ -189,4 +189,4 @@ class GeestOptionsFactory(QgsOptionsWidgetFactory):
         Returns:
             The result of the operation.
         """
-        return GeestSettings(parent)
+        return GeoE3Settings(parent)

@@ -2240,7 +2240,7 @@ class TreePanel(QWidget):
         next_workflow = self.workflow_queue.pop(0)
         self.start_workflows(workflow_type=next_workflow)
 
-        debug_env = int(os.getenv("GEEST_DEBUG", 0))
+        debug_env = int(os.getenv("GEOE3_DEBUG") or os.getenv("GEEST_DEBUG", 0))
         if debug_env:
             self.queue_manager.start_processing_in_foreground()
         else:

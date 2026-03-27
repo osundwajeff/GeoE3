@@ -161,7 +161,7 @@ class IndexScoreWithGHSLWorkflow(WorkflowBase):
             current_bbox,
             index,
             value_field="score",
-            default_value=255,
+            default_value=0,
         )
         self.progressChanged.emit(100.0)
 

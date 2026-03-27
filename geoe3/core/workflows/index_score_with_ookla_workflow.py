@@ -185,8 +185,8 @@ class IndexScoreWithOoklaWorkflow(WorkflowBase):
             log_message(f"No Ookla coverage in area {index}, skipping ookla masking.")
 
         if not final_geom or final_geom.isEmpty():
-            log_message(f"No Ookla coverage in area {index} after intersection, skipping rasterization.")
-            return None
+            log_message(f"No Ookla coverage in area {index}, using full clip area with score 0.")
+            final_geom = clip_area
 
         # Create scored layer only if we have valid geometry
         scored_layer = self.create_scored_boundary_layer(
@@ -201,7 +201,7 @@ class IndexScoreWithOoklaWorkflow(WorkflowBase):
             current_bbox,
             index,
             value_field="score",
-            default_value=255,
+            default_value=0,
         )
         self.progressChanged.emit(100.0)  # We just use nominal intervals for progress updates
 

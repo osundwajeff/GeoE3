@@ -99,7 +99,7 @@ The `admin.py` script provides various commands for managing the plugin, such as
    - Go to Settings > Options > System > Environment.
    - Add `PYTHONDEBUG=1`.
 2. **Use Logs**:
-   - Check the QGIS log panel for messages tagged with `Geest`.
+   - Check the QGIS log panel for messages tagged with `GeoE3`.
 
 ---
 
@@ -158,7 +158,7 @@ The test system requires the following environment variable:
 3. **Check Code Coverage**:
 
    ```bash
-   pytest --cov=geest
+   pytest --cov=geoe3
    ```
 
 4. **Run Tests from QGIS Plugin Interface**:

@@ -146,7 +146,7 @@ python -m pstats output.prof
 
 **For GEOE3**:
 ```bash
-python -m cProfile -o geest_profile.prof admin.py build
+python -m cProfile -o geoe3_profile.prof admin.py build
 ```
 
 ---
@@ -991,8 +991,8 @@ echo "snakeviz>=2.2.0" >> requirements-dev.txt
 mkdir -p test/benchmarks
 
 # Run initial profiling
-python -m cProfile -o geest_baseline.prof admin.py build
-snakeviz geest_baseline.prof
+python -m cProfile -o geoe3_baseline.prof admin.py build
+snakeviz geoe3_baseline.prof
 ```
 
 ---

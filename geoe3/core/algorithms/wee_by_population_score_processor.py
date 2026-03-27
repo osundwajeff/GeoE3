@@ -145,8 +145,8 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
 
     def validate_rasters(
         self,
-        geoe3_raster: QgisRasterLayer,
-        pop_raster: QgisRasterLayer,
+        geoe3_raster: QgsRasterLayer,
+        pop_raster: QgsRasterLayer,
         dimension_check=False,
     ) -> None:
         """

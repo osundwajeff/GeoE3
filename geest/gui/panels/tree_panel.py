@@ -470,6 +470,8 @@ class TreePanel(QWidget):
                 self.load_json()  # sets the class member json_data
                 self.model.loadJsonData(self.json_data)
                 self.apply_women_considerations_logic()  # Hide factors based on women considerations
+                # Hide factors that have only a single indicator (indicator shown in their place)
+                self.model.toggle_single_child_factors_visibility(hide_single_child=True)
                 self.treeView.expandAll()
                 log_message(f"Loaded model.json from {model_path}")
 
@@ -521,6 +523,8 @@ class TreePanel(QWidget):
             self.load_json()
             self.model.loadJsonData(self.json_data)
             self.apply_women_considerations_logic()  # Hide factors based on women considerations
+            # Hide factors that have only a single indicator (indicator shown in their place)
+            self.model.toggle_single_child_factors_visibility(hide_single_child=True)
             self.treeView.expandAll()
         # Collapse any factors that have only a single indicator
         self.treeView.collapse_single_nodes()
@@ -765,6 +769,8 @@ class TreePanel(QWidget):
             self.load_json()
             self.model.loadJsonData(self.json_data)
             self.apply_women_considerations_logic()  # Hide factors based on women considerations
+            # Hide factors that have only a single indicator (indicator shown in their place)
+            self.model.toggle_single_child_factors_visibility(hide_single_child=True)
             self.treeView.expandAll()
 
     def export_json_to_file(self):

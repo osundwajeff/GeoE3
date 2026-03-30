@@ -39,6 +39,7 @@ import logging
 import os
 import pstats
 import subprocess  # nosec B404
+import sys
 import tempfile
 import unittest
 from shutil import which
@@ -161,8 +162,6 @@ class GeoE3Plugin:
         Raises:
             ValueError: If GEOE3_TEST_DIR (or GEEST_TEST_DIR) is not set or points to invalid directory
         """
-        import sys
-
         # Get test directory from environment variable (with fallback for backward compatibility)
         env_test_dir = os.getenv("GEOE3_TEST_DIR") or os.getenv("GEEST_TEST_DIR")
 
@@ -836,7 +835,8 @@ for module_name in list(sys.modules.keys()):
                 title="GeoE3",
                 message=f"Visual Studio Code debugger is now attached on port {self.DEBUG_PORT}",
             )
-            self.debug_action.setEnabled(False)  # prevent user starting it twice
+            if self.debug_action:
+                self.debug_action.setEnabled(False)  # prevent user starting it twice
             self.debug_running = True
 
     def run(self):

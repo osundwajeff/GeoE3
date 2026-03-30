@@ -305,7 +305,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
                 feedback.progressChanged.connect(self.subtask_progress_updated)
                 self.disable_widgets()
                 if debug_env:
-                    processor.process_study_area()
+                    processor.run()
                 else:
                     self.queue_manager.add_task(processor)
                     self.queue_manager.start_processing()
@@ -503,7 +503,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
         self.child_progress_bar.setMinimum(0)
         self.child_progress_bar.setMaximum(100)
         self.child_progress_bar.setValue(0)
-        self.child_progress_bar.setFormat(f"Report failed — continuing")
+        self.child_progress_bar.setFormat("Report failed — continuing")
 
         self.enable_widgets()
         self.switch_to_next_tab.emit()

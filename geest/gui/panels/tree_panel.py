@@ -23,6 +23,7 @@ from qgis.core import (
     QgsProject,
     QgsVectorLayer,
 )
+from qgis.gui import QgsMessageBar
 from qgis.PyQt.QtCore import QModelIndex, QPoint, QSettings, Qt, pyqtSignal, pyqtSlot
 from qgis.PyQt.QtGui import QMovie
 from qgis.PyQt.QtWidgets import (
@@ -45,7 +46,6 @@ from qgis.PyQt.QtWidgets import (
     QWidget,
 )
 from qgis.utils import iface
-from qgis.gui import QgsMessageBar
 
 from geest.core import JsonTreeItem, WorkflowQueueManager
 from geest.core.algorithms import (
@@ -57,8 +57,8 @@ from geest.core.algorithms import (
     WEEByPopulationScoreProcessingTask,
 )
 from geest.core.reports import StudyAreaReport
-from geest.core.tasks import AnalysisReportTask
 from geest.core.settings import set_setting, setting
+from geest.core.tasks import AnalysisReportTask
 from geest.core.utilities import add_to_map, validate_network_layer
 from geest.gui.dialogs import (
     AnalysisAggregationDialog,
@@ -136,19 +136,19 @@ class TreePanel(QWidget):
             """
             QPushButton {
                 background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #b8dce3, stop:1 #8ec8d0);
-                color: #000;
-                border: 1px solid #6fa8b0;
+                    stop:0 #3E799B, stop:1 #2d5a75);
+                color: #ffffff;
+                border: 1px solid #2d5a75;
                 border-radius: 3px;
                 padding: 4px 12px;
             }
             QPushButton:hover {
                 background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #c8e8ef, stop:1 #9ed8e0);
+                    stop:0 #4a8bb0, stop:1 #3E799B);
             }
             QPushButton:pressed {
                 background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                    stop:0 #8ec8d0, stop:1 #b8dce3);
+                    stop:0 #2d5a75, stop:1 #3E799B);
             }
         """
         )
@@ -607,6 +607,7 @@ class TreePanel(QWidget):
                 tag="GeoE3",
                 level=Qgis.Warning,
             )
+            return
         try:
             json_data = self.model.to_json()
 

@@ -7,8 +7,9 @@ This module contains functionality for area iterator.
 
 from typing import Iterator, Tuple
 
-from geoe3.utilities import log_message
 from qgis.core import Qgis, QgsFeatureRequest, QgsGeometry, QgsVectorLayer
+
+from geest.utilities import log_message
 
 
 class AreaIterator:

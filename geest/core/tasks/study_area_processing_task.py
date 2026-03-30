@@ -11,12 +11,6 @@ import re
 import time
 import traceback
 
-from geoe3.core.algorithms import GHSLDownloader, GHSLProcessor
-from geoe3.core.grid_column_utils import add_model_columns_to_grid
-from geoe3.core.h3_utils import get_h3_resolution_for_scale
-from geoe3.core.settings import setting
-from geoe3.utilities import calculate_utm_zone, log_message
-
 # GDAL / OGR / OSR imports
 from osgeo import gdal, ogr, osr
 from qgis.core import (
@@ -35,6 +29,12 @@ from qgis.PyQt.QtCore import (
     QWaitCondition,
     pyqtSignal,
 )
+
+from geest.core.algorithms import GHSLDownloader, GHSLProcessor
+from geest.core.grid_column_utils import add_model_columns_to_grid
+from geest.core.h3_utils import get_h3_resolution_for_scale
+from geest.core.settings import setting
+from geest.utilities import calculate_utm_zone, log_message
 
 from .grid_chunker_task import GridChunkerTask
 from .grid_from_bbox_h3_task import GridFromBboxH3Task

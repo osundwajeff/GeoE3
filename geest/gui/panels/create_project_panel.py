@@ -228,6 +228,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
         model_path = os.path.join(self.working_dir, "model.json")
         if os.path.exists(model_path):
             self.settings.setValue("last_working_directory", self.working_dir)  # Update last used project
+            self.enable_widgets()
             # Switch to the next tab if an existing project is found
             self.switch_to_next_tab.emit()
         else:
@@ -269,6 +270,10 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
                     model["analysis_scale"] = "national"
                 # Save women considerations settings
                 model["women_considerations_enabled"] = self.women_considerations_checkbox.isChecked()
+                # Save reference layer source path
+                ref_layer = self.reference_layer()
+                if ref_layer and ref_layer.source():
+                    model["admin_boundary_layer_source"] = ref_layer.source()
             with open(model_path, "w") as f:
                 json.dump(model, f, indent=2)
 
@@ -503,7 +508,7 @@ class CreateProjectPanel(FORM_CLASS, QWidget):
         self.child_progress_bar.setMinimum(0)
         self.child_progress_bar.setMaximum(100)
         self.child_progress_bar.setValue(0)
-        self.child_progress_bar.setFormat(f"Report failed — continuing")
+        self.child_progress_bar.setFormat("Report failed — continuing")
 
         self.enable_widgets()
         self.switch_to_next_tab.emit()

@@ -81,8 +81,11 @@ logging.basicConfig(
     filename=log_file_path,
     filemode="a",  # Append mode
     format="%(asctime)s [%(levelname)s] %(message)s",
-    level=logging.INFO,  # INFO level to avoid PyQt UI loader debug spam
+    level=logging.DEBUG,
 )
+# Suppress PyQt uic module debug spam (push/pop widget, setting property, etc.)
+logging.getLogger("PyQt5.uic").setLevel(logging.WARNING)
+logging.getLogger("PyQt6.uic").setLevel(logging.WARNING)
 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 log_message("»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", force=True)
 log_message(f"GeoE3 started at {date}", force=True)

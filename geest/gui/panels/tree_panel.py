@@ -348,7 +348,19 @@ class TreePanel(QWidget):
 
         show_layer_on_click = setting(key="show_layer_on_click", default=True)
         if show_layer_on_click:
-            add_to_map(item)
+            # Determine the column name based on item role
+            if item.role == "dimension":
+                column_name = f"dim_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
+            elif item.role == "factor":
+                column_name = f"fac_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
+            elif item.role == "indicator":
+                column_name = item.attribute("id").lower().replace(" ", "_").replace("-", "_")
+            else:
+                # For analysis or other roles, fall back to raster
+                add_to_map(item)
+                return
+            # Add grid layer instead of raster
+            add_grid_layer_to_map(item, column_name, self.working_directory)
         show_overlay = setting(key="show_overlay", default=False)
         if show_overlay:
             QSettings().setValue("geoe3/overlay_label", item.data(0))
@@ -2071,7 +2083,18 @@ class TreePanel(QWidget):
         self.overall_progress_bar.setMaximum(self.items_to_run - 1)
         self.workflow_progress_bar.setValue(0)
         self.save_json_to_working_directory()
-        add_to_map(item)
+        # Add the grid layer to the map after workflow completes
+        if item.role == "dimension":
+            column_name = f"dim_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
+        elif item.role == "factor":
+            column_name = f"fac_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
+        elif item.role == "indicator":
+            column_name = item.attribute("id").lower().replace(" ", "_").replace("-", "_")
+        else:
+            # For analysis or other roles, fall back to raster
+            add_to_map(item)
+            return
+        add_grid_layer_to_map(item, column_name, self.working_directory)
 
         # Now cancel the animated icon
         node_index = self.model.itemIndex(item)

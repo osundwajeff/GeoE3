@@ -252,6 +252,11 @@ def add_grid_layer_to_map(
         )
         return
 
+    # Apply filter to exclude NULL values for the column being visualized
+    filter_expression = f'"{column_name}" IS NOT NULL'
+    layer.setSubsetString(filter_expression)
+    log_message(f"Applied filter: {filter_expression}")
+
     # Load the QML template and substitute the column name
     template_path = resources_path("resources", "qml", "indicator-vector-template.qml")
     log_message(f"Template path: {template_path}")
@@ -323,9 +328,11 @@ def add_grid_layer_to_map(
             layer_tree_layer = child
             break
 
-    # If the layer exists, update its style instead of re-adding
+    # If the layer exists, update its style and filter instead of re-adding
     if existing_layer is not None:
         log_message(f"Refreshing existing layer: {existing_layer.name()}")
+        # Update filter for the column being visualized
+        existing_layer.setSubsetString(filter_expression)
         # Re-apply style to existing layer
         with tempfile.NamedTemporaryFile(mode="w", suffix=".qml", delete=False) as tmp:
             tmp.write(qml_content)

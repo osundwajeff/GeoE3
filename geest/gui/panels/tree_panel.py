@@ -355,8 +355,10 @@ class TreePanel(QWidget):
                 column_name = f"fac_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
             elif item.role == "indicator":
                 column_name = item.attribute("id").lower().replace(" ", "_").replace("-", "_")
+            elif item.role == "analysis":
+                column_name = "geoe3"  # Analysis aggregation uses geoe3 column
             else:
-                # For analysis or other roles, fall back to raster
+                # For unknown roles, fall back to raster
                 add_to_map(item)
                 return
             # Add grid layer instead of raster
@@ -880,11 +882,15 @@ class TreePanel(QWidget):
             animate_results_action.triggered.connect(self.animate_results)
             menu.addAction(animate_results_action)
 
-            add_geoe3_score = QAction("Add GeoE3 Score to Map")
+            add_geoe3_score = QAction("Add GeoE3 Score to Map (Raster)")
             add_geoe3_score.triggered.connect(
                 lambda: add_to_map(item, key="result_file", layer_name="GeoE3 Score", group="GeoE3")
             )
             menu.addAction(add_geoe3_score)
+
+            add_geoe3_score_grid = QAction("Add GeoE3 Score to Map (Grid)")
+            add_geoe3_score_grid.triggered.connect(lambda: add_grid_layer_to_map(item, "geoe3", self.working_directory))
+            menu.addAction(add_geoe3_score_grid)
 
             add_geoe3_by_population = QAction("Add GeoE3 by Pop to Map")
             add_geoe3_by_population.triggered.connect(
@@ -2090,8 +2096,10 @@ class TreePanel(QWidget):
             column_name = f"fac_{item.attribute('id').lower().replace(' ', '_').replace('-', '_')}"
         elif item.role == "indicator":
             column_name = item.attribute("id").lower().replace(" ", "_").replace("-", "_")
+        elif item.role == "analysis":
+            column_name = "geoe3"  # Analysis aggregation uses geoe3 column
         else:
-            # For analysis or other roles, fall back to raster
+            # For unknown roles, fall back to raster
             add_to_map(item)
             return
         add_grid_layer_to_map(item, column_name, self.working_directory)

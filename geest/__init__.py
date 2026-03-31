@@ -81,7 +81,7 @@ logging.basicConfig(
     filename=log_file_path,
     filemode="a",  # Append mode
     format="%(asctime)s [%(levelname)s] %(message)s",
-    level=logging.DEBUG,
+    level=logging.INFO,  # INFO level to avoid PyQt UI loader debug spam
 )
 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 log_message("»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", force=True)

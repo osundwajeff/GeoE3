@@ -194,7 +194,7 @@ class WEEByPopulationScoreProcessingTask(QgsTask):
             if self.isCanceled():
                 return
 
-            geoe3_path = os.path.join(self.geoe3_folder, f"wee_score_masked_{index}.tif")
+            geoe3_path = os.path.join(self.geoe3_folder, f"geoe3_masked_{index}.tif")
             population_path = os.path.join(self.population_folder, f"reclassified_{index}.tif")
             geoe3_layer = QgsRasterLayer(geoe3_path, "GeoE3")
             pop_layer = QgsRasterLayer(population_path, "POP")

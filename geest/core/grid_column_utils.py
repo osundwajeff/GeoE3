@@ -76,8 +76,8 @@ def get_aggregate_column_names() -> List[str]:
         List of column names for aggregate scores (WEE score, WEE by population, etc.)
     """
     return [
-        "wee_score",
-        "wee_by_population",
+        "geoe3",
+        "geoe3_by_population",
         "contextual_score",
         "accessibility_score",
         "place_characterization_score",

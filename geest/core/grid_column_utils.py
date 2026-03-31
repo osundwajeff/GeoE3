@@ -222,24 +222,14 @@ def write_raster_values_to_grid(
             raster_ds = None
             return -1
 
-        layer = ds.GetLayerByName("study_area_grid")
-        if not layer:
-            log_message("study_area_grid layer not found", level=Qgis.Critical)
+        # Get layer and ensure column exists (create if missing)
+        layer, field_idx = _get_grid_layer_and_field_index(ds, column_name, create_if_missing=True)
+        if layer is None or field_idx < 0:
             ds = None
             raster_ds = None
             return -1
 
-        # Sanitize column name
-        sanitized_column = column_name.replace(" ", "_").replace("-", "_")[:63].lower()
-
-        # Check if column exists
-        layer_defn = layer.GetLayerDefn()
-        field_idx = layer_defn.GetFieldIndex(sanitized_column)
-        if field_idx < 0:
-            log_message(f"Column {sanitized_column} not found in grid layer", level=Qgis.Warning)
-            ds = None
-            raster_ds = None
-            return -1
+        sanitized_column = _sanitize_column_name(column_name)
 
         # Set spatial filter to raster extent (only process cells within raster bounds)
         layer.SetSpatialFilterRect(xmin, ymin, xmax, ymax)
@@ -338,12 +328,14 @@ def _sanitize_column_name(column_name: str) -> str:
 def _get_grid_layer_and_field_index(
     ds: ogr.DataSource,
     column_name: str,
+    create_if_missing: bool = True,
 ) -> Tuple[Optional[ogr.Layer], int]:
     """Get the study_area_grid layer and field index for a column.
 
     Args:
         ds: Open OGR DataSource for the GeoPackage.
         column_name: The column name to look up.
+        create_if_missing: If True, create the column as Real/Float if it doesn't exist.
 
     Returns:
         Tuple of (layer, field_index) or (None, -1) if not found.
@@ -358,8 +350,19 @@ def _get_grid_layer_and_field_index(
     field_idx = layer_defn.GetFieldIndex(sanitized_column)
 
     if field_idx < 0:
-        log_message(f"Column {sanitized_column} not found in grid layer", level=Qgis.Warning)
-        return layer, -1
+        if create_if_missing:
+            # Create the column as Real/Float type
+            field_defn = ogr.FieldDefn(sanitized_column, ogr.OFTReal)
+            if layer.CreateField(field_defn) != 0:
+                log_message(f"Failed to create column {sanitized_column}", level=Qgis.Warning)
+                return layer, -1
+            log_message(f"Created column {sanitized_column} in grid layer")
+            # Re-fetch the field index after creation
+            layer_defn = layer.GetLayerDefn()
+            field_idx = layer_defn.GetFieldIndex(sanitized_column)
+        else:
+            log_message(f"Column {sanitized_column} not found in grid layer", level=Qgis.Warning)
+            return layer, -1
 
     return layer, field_idx
 
@@ -400,16 +403,9 @@ def write_uniform_value_to_grid(
             log_message(f"Could not open GeoPackage: {gpkg_path}", level=Qgis.Critical)
             return -1
 
-        # Verify column exists
-        layer = ds.GetLayerByName("study_area_grid")
-        if not layer:
-            log_message("study_area_grid layer not found", level=Qgis.Critical)
-            ds = None
-            return -1
-
-        layer_defn = layer.GetLayerDefn()
-        if layer_defn.GetFieldIndex(sanitized_column) < 0:
-            log_message(f"Column {sanitized_column} not found in grid layer", level=Qgis.Warning)
+        # Verify column exists, create if missing
+        layer, field_idx = _get_grid_layer_and_field_index(ds, column_name, create_if_missing=True)
+        if layer is None or field_idx < 0:
             ds = None
             return -1
 

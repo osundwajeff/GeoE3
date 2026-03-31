@@ -27,6 +27,7 @@ class MultiBufferConfigurationWidget(BaseConfigurationWidget):
     def _add_mapping_thresholds_table(self) -> None:
         """
         Adds a table showing scale-specific thresholds from the mappings module.
+        Shows both national and local scale tables for reference.
         """
         self.mapping_thresholds = None
         self.mapping_buffer_distances = None
@@ -35,19 +36,9 @@ class MultiBufferConfigurationWidget(BaseConfigurationWidget):
                 f"_add_mapping_thresholds_table called with attributes: {self.attributes.get('id')}", level=Qgis.Info
             )
 
-            # Get analysis scale from model.json
+            # Get working directory and model path
             working_dir = setting("last_working_directory", "")
             model_path = os.path.join(working_dir, "model.json")
-
-            analysis_scale = self.attributes.get("analysis_scale") or "national"
-            if os.path.exists(model_path):
-                try:
-                    with open(model_path, "r") as f:
-                        model = json.load(f)
-                        analysis_scale = model.get("analysis_scale", analysis_scale)
-                    log_message(f"Analysis scale from model.json: {analysis_scale}", level=Qgis.Info)
-                except Exception as e:
-                    log_message(f"Could not read analysis_scale from model.json: {e}", level=Qgis.Warning)
 
             # Get factor ID from attributes (injected by FactorConfigurationWidget)
             # Indicators have their own ID, but we need the parent factor's ID.
@@ -91,12 +82,6 @@ class MultiBufferConfigurationWidget(BaseConfigurationWidget):
                 )
                 return  # No mapping found for this factor
 
-            # Get scale-specific config
-            config = mapping.get(analysis_scale, mapping.get("national"))
-
-            if not config:
-                return  # No config found
-
             # Get factor name from attributes; fallback to model.json lookup.
             factor_name = self.attributes.get("factor_name") or "Multi-Buffer Analysis"
             if factor_name == "Multi-Buffer Analysis" and os.path.exists(model_path):
@@ -111,77 +96,49 @@ class MultiBufferConfigurationWidget(BaseConfigurationWidget):
                 except Exception:
                     pass
 
-            thresholds = config.get("thresholds", [])
-            scores = config.get("scores", [])
-            if thresholds:
-                self.mapping_thresholds = thresholds
+            # Get the selected analysis scale for determining which thresholds to use in the input field
+            analysis_scale = self.attributes.get("analysis_scale") or "national"
+            if os.path.exists(model_path):
+                try:
+                    with open(model_path, "r") as f:
+                        model = json.load(f)
+                        analysis_scale = model.get("analysis_scale", analysis_scale)
+                except Exception:
+                    pass
 
-            # Check if this is Regional scale (percentage-based scoring)
-            scoring_method = config.get("scoring_method", "")
-            buffer_distance = config.get("buffer_distance", 0)
-            percentage_scores = config.get("percentage_scores", {})
+            # Get configs for both national and local scales to display
+            national_config = mapping.get("national")
+            local_config = mapping.get("local")
 
-            # Store buffer distance for use in Travel Increments field
-            if buffer_distance:
-                self.mapping_buffer_distance = buffer_distance
-            else:
-                self.mapping_buffer_distance = None
+            # Use selected scale config for the input field thresholds
+            selected_config = mapping.get(analysis_scale, national_config)
+            if selected_config:
+                thresholds = selected_config.get("thresholds", [])
+                if thresholds:
+                    self.mapping_thresholds = thresholds
+                buffer_distance = selected_config.get("buffer_distance", 0)
+                if buffer_distance:
+                    self.mapping_buffer_distance = buffer_distance
+                else:
+                    self.mapping_buffer_distance = None
 
-            # Generate HTML table based on scoring method
-            if scoring_method == "percentage_intersection" and percentage_scores:
-                # Regional scale: show buffer distance and percentage classification
-                html = f"""
-                <p><b>{factor_name} ({analysis_scale.title()} Scale)</b></p>
-                <p><b>Buffer Distance:</b> {buffer_distance}m</p>
-                <table border='1' cellpadding='4' cellspacing='0'>
-                    <tr><th>Coverage Percentage</th><th>Score</th></tr>
-                """
+            # Generate HTML for both scales side by side using a table
+            html = '<table border="0" cellpadding="5" cellspacing="0"><tr>'
 
-                # Build percentage ranges (sorted by threshold ascending)
-                sorted_thresholds = sorted(percentage_scores.items())
-                prev_pct = 0
-                for i, (min_pct, score) in enumerate(sorted_thresholds):
-                    # Handle score 0 specially (no intersection = 0%)
-                    if score == 0:
-                        pct_range = "0% (no intersection)"
-                    elif i == len(sorted_thresholds) - 1:
-                        # Last entry (highest score): show prev_pct to 100%
-                        pct_range = f"{prev_pct + 0.01:.2f}% - 100%"
-                    else:
-                        # Use min_pct as upper bound, not next threshold
-                        if prev_pct == 0:
-                            # First non-zero score starts from 0.01%
-                            pct_range = f"0.01% - {min_pct:.2f}%"
-                        else:
-                            pct_range = f"{prev_pct + 0.01:.2f}% - {min_pct:.2f}%"
-                    html += f"<tr><td>{pct_range}</td><td>{score}</td></tr>"
-                    prev_pct = min_pct
+            if national_config:
+                html += '<td valign="top">'
+                html += self._generate_scale_table_html("National", "national", national_config, show_note=False)
+                html += "</td>"
 
-                html += "</table>"
-                html += "<p><i>Note: You can override the buffer distance below</i></p>"
-            else:
-                # National/Local scale: show distance thresholds table
-                html = f"""
-                <p><b>{factor_name} ({analysis_scale.title()} Scale)</b></p>
-                <table border='1' cellpadding='4' cellspacing='0'>
-                    <tr><th>Distance Range (m)</th><th>Score</th></tr>
-                """
+            if local_config:
+                html += '<td valign="top">'
+                html += self._generate_scale_table_html("Local", "local", local_config, show_note=False)
+                html += "</td>"
 
-                # Build distance ranges
-                for i, score in enumerate(scores):
-                    if i == 0:
-                        distance_range = f"0 - {thresholds[0]}"
-                    elif i < len(thresholds):
-                        distance_range = f"{thresholds[i-1]} - {thresholds[i]}"
-                    else:
-                        distance_range = f"> {thresholds[-1]}"
+            html += "</tr></table>"
+            html += "<p><i>Note: You can override these defaults below</i></p>"
 
-                    html += f"<tr><td>{distance_range}</td><td>{score}</td></tr>"
-
-                html += "</table>"
-                html += "<p><i>Note: You can override these defaults below</i></p>"
-
-            # Display table
+            # Display tables
             self.mapping_table_label = QLabel()
             self.mapping_table_label.setWordWrap(True)
             self.mapping_table_label.setTextFormat(Qt.RichText)
@@ -193,6 +150,77 @@ class MultiBufferConfigurationWidget(BaseConfigurationWidget):
         except Exception as e:
             log_message(f"Error adding mapping thresholds table: {e}", level=Qgis.Warning)
             log_message(traceback.format_exc(), level=Qgis.Warning)
+
+    def _generate_scale_table_html(
+        self, factor_name: str, scale_name: str, config: dict, show_note: bool = True
+    ) -> str:
+        """
+        Generate HTML table for a given scale configuration.
+
+        Args:
+            factor_name: The name of the factor
+            scale_name: The scale name (national, local, regional)
+            config: The configuration dictionary for this scale
+
+        Returns:
+            HTML string for the table
+        """
+        thresholds = config.get("thresholds", [])
+        scores = config.get("scores", [])
+        scoring_method = config.get("scoring_method", "")
+        buffer_distance = config.get("buffer_distance", 0)
+        percentage_scores = config.get("percentage_scores", {})
+
+        # Regional scale: show buffer distance and percentage classification
+        if scoring_method == "percentage_intersection" and percentage_scores:
+            html = f"""
+            <p><b>{factor_name} Scale</b></p>
+            <p><b>Buffer Distance:</b> {buffer_distance}m</p>
+            <table border='1' cellpadding='4' cellspacing='0'>
+                <tr><th>Coverage Percentage</th><th>Score</th></tr>
+            """
+
+            sorted_thresholds = sorted(percentage_scores.items())
+            prev_pct = 0
+            for i, (min_pct, score) in enumerate(sorted_thresholds):
+                if score == 0:
+                    pct_range = "0% (no intersection)"
+                elif i == len(sorted_thresholds) - 1:
+                    pct_range = f"{prev_pct + 0.01:.2f}% - 100%"
+                else:
+                    if prev_pct == 0:
+                        pct_range = f"0.01% - {min_pct:.2f}%"
+                    else:
+                        pct_range = f"{prev_pct + 0.01:.2f}% - {min_pct:.2f}%"
+                html += f"<tr><td>{pct_range}</td><td>{score}</td></tr>"
+                prev_pct = min_pct
+
+            html += "</table>"
+            if show_note:
+                html += "<p><i>Note: You can override the buffer distance below</i></p>"
+        else:
+            # National/Local scale: show distance thresholds table
+            html = f"""
+            <p><b>{factor_name} Scale</b></p>
+            <table border='1' cellpadding='4' cellspacing='0'>
+                <tr><th>Distance Range (m)</th><th>Score</th></tr>
+            """
+
+            for i, score in enumerate(scores):
+                if i == 0:
+                    distance_range = f"0 - {thresholds[0]}"
+                elif i < len(thresholds):
+                    distance_range = f"{thresholds[i - 1]} - {thresholds[i]}"
+                else:
+                    distance_range = f"> {thresholds[-1]}"
+
+                html += f"<tr><td>{distance_range}</td><td>{score}</td></tr>"
+
+            html += "</table>"
+            if show_note:
+                html += "<p><i>Note: You can override these defaults below</i></p>"
+
+        return html
 
     def add_internal_widgets(self) -> None:
         """

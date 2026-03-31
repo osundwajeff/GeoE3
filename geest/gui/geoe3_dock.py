@@ -230,11 +230,7 @@ class GeoE3Dock(QDockWidget):
             self.stacked_widget.addWidget(road_network_panel)
 
             self.road_network_widget.switch_to_previous_tab.connect(
-                # Switch to the next tab when the button is clicked
-                # 🚩 Note we set the back button and the forward
-                #    button both to the TREE_PANEL so that the
-                #    User can re-invoke the network panel any time
-                lambda: self.stacked_widget.setCurrentIndex(TREE_PANEL)
+                lambda: self.stacked_widget.setCurrentIndex(ORS_PANEL)
             )
 
             self.road_network_widget.switch_to_next_tab.connect(

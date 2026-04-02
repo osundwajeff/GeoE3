@@ -434,10 +434,15 @@ def _add_to_zip(directory: Path, zip_handler: zipfile.ZipFile, arc_path_base: Pa
         zip_handler: Plugin zip file.
         arc_path_base: Parent directory of the input files directory.
     """
+    # Patterns to exclude from the zip
+    exclude_dirs = {"__pycache__", ".git", ".pytest_cache", "__pypackages__"}
+    exclude_extensions = {".pyc", ".pyo", ".xcf"}
+
     for item in directory.iterdir():
         if item.is_file():
-            zip_handler.write(item, arcname=str(item.relative_to(arc_path_base)))
-        else:
+            if item.suffix not in exclude_extensions:
+                zip_handler.write(item, arcname=str(item.relative_to(arc_path_base)))
+        elif item.name not in exclude_dirs:
             _add_to_zip(item, zip_handler, arc_path_base)
 
 

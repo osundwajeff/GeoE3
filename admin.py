@@ -24,7 +24,7 @@ TEST_FILES = ["test", "test_suite.py", "docker-compose.yml", "scripts"]
 # Vendored dependencies to bundle with the plugin
 # These will be downloaded for multiple platforms
 VENDORED_PACKAGES = [
-    "h3",
+    # "h3",  # Removed to reduce bundle size - users can install separately if needed
 ]
 # Platform tags for wheel downloads (covers most QGIS installations)
 WHEEL_PLATFORMS = [

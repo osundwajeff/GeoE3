@@ -5,7 +5,14 @@ import json
 import os
 from typing import List
 
-from qgis.core import QgsApplication, QgsGeometry, QgsProject, QgsVectorLayer
+from qgis.core import (
+    QgsApplication,
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsGeometry,
+    QgsProject,
+    QgsVectorLayer,
+)
 from qgis.PyQt.QtCore import QSettings
 from qgis.PyQt.QtWidgets import QLabel, QLineEdit, QMessageBox, QPushButton
 
@@ -123,7 +130,8 @@ class S2SDataSourceWidget(VectorDataSourceWidget):
         self.s2s_status_label.setText("S2S download failed")
         self.s2s_fetch_button.setEnabled(True)
         self.s2s_fetch_button.setText("Fetch from S2S")
-        QMessageBox.warning(self, "S2S Download Failed", message)
+        friendly_message = self._humanize_s2s_error(message)
+        QMessageBox.warning(self, "S2S Download Failed", friendly_message)
 
     def _on_s2s_terminated(self) -> None:
         """Handle cancelled/terminated S2S tasks."""
@@ -178,8 +186,24 @@ class S2SDataSourceWidget(VectorDataSourceWidget):
 
     @staticmethod
     def _build_aoi_feature(layer: QgsVectorLayer) -> dict:
-        """Build a GeoJSON feature from all geometries in the AOI layer."""
-        geometries = [feature.geometry() for feature in layer.getFeatures() if feature.geometry()]
+        """Build a GeoJSON feature from AOI geometry in EPSG:4326."""
+        geometries = []
+        source_crs = layer.crs()
+        target_crs = QgsCoordinateReferenceSystem("EPSG:4326")
+        transform = None
+
+        if source_crs.isValid() and source_crs != target_crs:
+            transform = QgsCoordinateTransform(source_crs, target_crs, QgsProject.instance())
+
+        for feature in layer.getFeatures():
+            geometry = feature.geometry()
+            if not geometry or geometry.isEmpty():
+                continue
+            transformed_geometry = QgsGeometry(geometry)
+            if transform is not None:
+                transformed_geometry.transform(transform)
+            geometries.append(transformed_geometry)
+
         if not geometries:
             return {}
 
@@ -192,3 +216,16 @@ class S2SDataSourceWidget(VectorDataSourceWidget):
             "geometry": json.loads(union_geometry.asJson()),
             "properties": {},
         }
+
+    @staticmethod
+    def _humanize_s2s_error(message: str) -> str:
+        """Convert low-level S2S errors into user-friendly text."""
+        lowered = str(message).lower()
+        if "exterior must be valid" in lowered or "coordinate" in lowered:
+            return (
+                "The study area geometry sent to S2S is invalid in WGS84 coordinates. "
+                "Please recreate or repair the study area and try again."
+            )
+        if "fields are unavailable" in lowered:
+            return "The selected S2S field is unavailable. Please refresh available fields and try again."
+        return message
